@@ -55,24 +55,45 @@ if (!hasDeepSeekKey) {
   console.warn('[Server] ⚠️  DEEPSEEK_API_KEY not configured. AI generation will use fallback mode.');
 }
 
-// Middleware - CORS with support for common dev ports
+// Middleware - CORS with support for dev ports and Vercel
 const allowedOrigins = [
-  process.env.ALLOWED_ORIGIN || 'http://localhost:5173',
+  process.env.ALLOWED_ORIGIN,
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5175',
   'http://localhost:3000',
-];
+  // Vercel preview and production domains
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+  process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null,
+].filter((origin): origin is string => Boolean(origin));
+
+// Allow any *.vercel.app domain for Vercel deployments
+const isVercelDomain = (origin: string): boolean => {
+  try {
+    const url = new URL(origin);
+    return url.hostname.endsWith('.vercel.app');
+  } catch {
+    return false;
+  }
+};
 
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
+    
+    // Check exact matches
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(null, false);
+      return callback(null, true);
     }
+    
+    // Check Vercel domains
+    if (isVercelDomain(origin)) {
+      return callback(null, true);
+    }
+    
+    // Reject others
+    callback(null, false);
   },
   credentials: true,
 }));
@@ -80,13 +101,11 @@ app.use(cors({
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
-// Health check
+// Health check - simplified for Render
 app.get('/health', (req, res) => {
   res.json({ 
+    ok: true,
     status: 'ok',
-    deepseek: hasDeepSeekKey ? 'configured' : 'not_configured',
-    model: hasDeepSeekKey ? deepSeekModel : null,
-    baseUrl: hasDeepSeekKey ? deepSeekBaseUrl : null,
     timestamp: new Date().toISOString(),
   });
 });
@@ -158,16 +177,17 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`[Server] ✅ IGmetryx API server running on port ${PORT}`);
+// Start server - bind to 0.0.0.0 for Render compatibility
+const HOST = '0.0.0.0';
+app.listen(PORT, HOST, () => {
+  console.log(`[Server] ✅ IGmetryx API server running on ${HOST}:${PORT}`);
   console.log(`[Server] 📡 Environment: ${process.env.NODE_ENV || 'development'}`);
   if (hasDeepSeekKey) {
     console.log(`[Server] 🤖 DeepSeek: ✅ configured (model=${deepSeekModel}, host=${deepSeekHost})`);
   } else {
     console.log(`[Server] 🤖 DeepSeek: ❌ not configured (using fallback)`);
   }
-  console.log(`[Server] 🔗 API endpoint: http://localhost:${PORT}/api/ig/generate`);
-  console.log(`[Server] 🏥 Health check: http://localhost:${PORT}/health`);
+  console.log(`[Server] 🔗 API endpoint: http://${HOST}:${PORT}/api/ig/generate`);
+  console.log(`[Server] 🏥 Health check: http://${HOST}:${PORT}/health`);
 });
 
