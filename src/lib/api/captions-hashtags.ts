@@ -37,6 +37,8 @@ export interface CaptionHashtagResponse {
   error?: {
     message: string;
     code?: string;
+    retryAfterSec?: number;
+    resetAt?: string;
   };
 }
 
