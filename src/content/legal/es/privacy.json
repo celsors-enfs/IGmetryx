@@ -1,0 +1,45 @@
+{
+  "title": "Política de Privacidad",
+  "updatedAt": "2025-12-15",
+  "sections": [
+    {
+      "heading": "1. Visión general",
+      "body": [
+        "IGmetryx es un conjunto de herramientas ligeras para creadores enfocadas en insights de Instagram y ayuda con contenido. No vendemos datos ni construimos audiencias publicitarias a partir de tu actividad aquí.",
+        "Esta Política de Privacidad explica qué información se procesa cuando usas IGmetryx, cómo se utiliza en tu navegador y qué partes (si las hay) llegan a salir de tu dispositivo."
+      ]
+    },
+    {
+      "heading": "2. Datos que introduces directamente",
+      "body": [
+        "Algunas herramientas te permiten escribir información como nombres de usuario de Instagram, métricas del perfil, ideas de captions, bios o descripciones de contenido. Estos datos se usan solo para generar el resultado que pediste (por ejemplo, un análisis o sugerencias de caption).",
+        "Salvo que se indique lo contrario en la propia herramienta, no almacenamos de forma permanente esta información en nuestros servidores. Cualquier procesamiento temporal necesario para ofrecer la funcionalidad se limita a lo mínimo imprescindible para esa petición."
+      ]
+    },
+    {
+      "heading": "3. Solo datos públicos de Instagram",
+      "body": [
+        "IGmetryx funciona únicamente con información pública que ya es visible en Instagram, o con métricas que copias manualmente desde Instagram Insights. No pedimos tu contraseña de Instagram ni realizamos scraping o recolección automatizada que viole las políticas de Instagram o Meta.",
+        "Si eliges conectarte en el futuro mediante la API oficial de Instagram Graph, esa conexión estará regida por las pantallas de permisos de Meta y esta Política de Privacidad se actualizará para detallar qué se almacena y durante cuánto tiempo."
+      ]
+    },
+    {
+      "heading": "4. Analítica, cookies y registros",
+      "body": [
+        "Podemos utilizar analítica básica y respetuosa con la privacidad (por ejemplo, páginas vistas agregadas) para entender qué herramientas se usan más y mejorar el producto. Esta analítica no intenta perfilarte como individuo.",
+        "Se pueden usar cookies o almacenamiento local para recordar tu idioma, preferencias de herramientas o, en el futuro, mantener tu sesión iniciada. Puedes borrar estos datos en cualquier momento desde la configuración de tu navegador."
+      ]
+    },
+    {
+      "heading": "5. Tus opciones y contacto",
+      "body": [
+        "Si tienes preguntas sobre cómo IGmetryx maneja los datos, o si algo en esta política no te queda claro, puedes escribirnos a support@igmetryx.com.",
+        "Al seguir usando IGmetryx aceptas esta Política de Privacidad y cualquier actualización futura publicada en esta página."
+      ]
+    }
+  ]
+}
+
+
+
+

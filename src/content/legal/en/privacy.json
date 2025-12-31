@@ -1,0 +1,45 @@
+{
+  "title": "Privacy Policy",
+  "updatedAt": "2025-12-15",
+  "sections": [
+    {
+      "heading": "1. Overview",
+      "body": [
+        "IGmetryx is a set of lightweight creator tools focused on Instagram insights and content helpers. We do not sell data, track individual profiles over time, or build advertising audiences from your activity.",
+        "This Privacy Policy explains what information is processed when you use IGmetryx, how it is used in your browser, and which parts (if any) ever leave your device."
+      ]
+    },
+    {
+      "heading": "2. Data You Enter Directly",
+      "body": [
+        "Some tools allow you to type information such as Instagram usernames, profile metrics, captions, bios or content descriptions. This data is used only to generate the output you requested (for example, an analysis or caption suggestions).",
+        "Unless explicitly stated otherwise in the tool, we do not permanently store this input on our servers. Any temporary processing needed to provide the feature (for example, calling an AI provider) is limited to the data required for that request."
+      ]
+    },
+    {
+      "heading": "3. Public Instagram Data Only",
+      "body": [
+        "IGmetryx works only with public information that is already visible on Instagram, or with metrics you manually copy from Instagram Insights. We do not ask for your Instagram password, and we do not perform scraping or automated collection that violates Instagram or Meta policies.",
+        "If you choose to connect via the official Instagram Graph API in the future, that connection will be governed by Meta’s own permissions screens and this Privacy Policy will be updated to reflect what is stored and for how long."
+      ]
+    },
+    {
+      "heading": "4. Analytics, Cookies and Logs",
+      "body": [
+        "We may use basic, privacy‑respecting analytics (such as aggregated page views) to understand which tools are used most and to improve the product. These analytics do not focus on individual users or attempt to build personal profiles.",
+        "Cookies or local storage may be used to remember your language preference, tool settings, or to keep you signed in (if authentication is added). You can clear this data at any time in your browser."
+      ]
+    },
+    {
+      "heading": "5. Your Choices and Contact",
+      "body": [
+        "If you have questions about how IGmetryx handles data, or if you believe something in this policy is unclear, you can reach us at support@igmetryx.com.",
+        "By continuing to use IGmetryx you agree to this Privacy Policy and to any future updates published on this page."
+      ]
+    }
+  ]
+}
+
+
+
+

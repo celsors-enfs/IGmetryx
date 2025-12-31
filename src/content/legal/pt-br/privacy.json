@@ -1,0 +1,45 @@
+{
+  "title": "Política de Privacidade",
+  "updatedAt": "2025-12-15",
+  "sections": [
+    {
+      "heading": "1. Visão geral",
+      "body": [
+        "O IGmetryx é um conjunto de ferramentas leves para criadores focadas em insights de Instagram e ajuda com conteúdo. Não vendemos dados, não criamos audiências de anúncio a partir do seu uso da ferramenta e não acompanhamos a performance de perfis individuais ao longo do tempo.",
+        "Esta Política de Privacidade explica quais informações são processadas quando você usa o IGmetryx, como elas são usadas no seu navegador e quais partes (se houver) chegam a sair do seu dispositivo."
+      ]
+    },
+    {
+      "heading": "2. Dados que você digita",
+      "body": [
+        "Algumas ferramentas permitem que você informe nomes de usuário do Instagram, métricas do perfil, ideias de legendas, bios ou descrições de conteúdo. Esses dados são usados apenas para gerar o resultado que você pediu (por exemplo, uma análise ou sugestões de legenda).",
+        "Salvo indicação em contrário na própria ferramenta, não armazenamos esses dados de forma permanente em nossos servidores. Qualquer processamento temporário necessário para entregar o recurso é limitado ao mínimo necessário para aquela requisição."
+      ]
+    },
+    {
+      "heading": "3. Apenas dados públicos do Instagram",
+      "body": [
+        "O IGmetryx funciona apenas com informações públicas que já estão visíveis no Instagram, ou com métricas que você copia manualmente do Instagram Insights. Não pedimos sua senha do Instagram e não fazemos scraping ou coleta automatizada que viole as políticas do Instagram ou da Meta.",
+        "Se você decidir se conectar no futuro via API oficial do Instagram Graph, essa conexão será regida pelas telas de permissão da Meta, e esta Política de Privacidade será atualizada para detalhar o que é armazenado e por quanto tempo."
+      ]
+    },
+    {
+      "heading": "4. Métricas, cookies e logs",
+      "body": [
+        "Podemos usar métricas básicas e agregadas (como páginas mais acessadas) para entender o uso das ferramentas e melhorar o produto. Esse tipo de métrica não tenta criar perfis individuais de comportamento.",
+        "Cookies ou armazenamento local podem ser usados para lembrar o idioma, preferências das ferramentas ou, no futuro, manter você conectado. Você pode limpar esses dados a qualquer momento nas configurações do seu navegador."
+      ]
+    },
+    {
+      "heading": "5. Seus direitos e contato",
+      "body": [
+        "Se você tiver dúvidas sobre como o IGmetryx lida com dados, ou se algo nesta política não estiver claro, escreva para support@igmetryx.com.",
+        "Ao continuar usando o IGmetryx, você concorda com esta Política de Privacidade e com futuras atualizações publicadas nesta página."
+      ]
+    }
+  ]
+}
+
+
+
+
