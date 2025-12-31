@@ -141,7 +141,7 @@ export async function generateCaptionsHashtags(
           request_id: '',
         },
         error: {
-          message: 'Network error. Please check if the API server is running.',
+          message: 'Unable to reach the API service. Please check your connection and try again.',
           code: 'NETWORK_ERROR',
         },
       };

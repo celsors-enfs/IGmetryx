@@ -32,8 +32,7 @@ interface JobStatus {
   progress: number;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.DEV ? '' : 'http://localhost:3001');
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 const POLL_INTERVAL = 1000; // Start with 1 second
 const MAX_POLL_INTERVAL = 2000; // Max 2 seconds

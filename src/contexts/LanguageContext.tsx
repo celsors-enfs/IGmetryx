@@ -232,6 +232,7 @@ const translations: Record<Language, Record<string, string>> = {
     'common.whyThisHelps': 'Why this helps',
     'common.limitations': 'Limitations & Important Notes',
     'common.or': 'Or',
+    'api.unreachable': 'Unable to reach the API service. Please check your connection and try again.',
     
     // Profile Analyzer
     'profile.title': 'Profile Analyzer',
@@ -1510,6 +1511,7 @@ const translations: Record<Language, Record<string, string>> = {
     'common.whyThisHelps': 'Por qué esto ayuda',
     'common.limitations': 'Limitaciones y Notas Importantes',
     'common.or': 'O',
+    'api.unreachable': 'No se puede conectar al servicio de API. Por favor verifica tu conexión e intenta de nuevo.',
 
     // About Page
     'about.title': 'Acerca de IGmetryx',
@@ -2245,6 +2247,7 @@ const translations: Record<Language, Record<string, string>> = {
     'common.whyThisHelps': 'Por que isso ajuda',
     'common.limitations': 'Limitações e Notas Importantes',
     'common.or': 'Ou',
+    'api.unreachable': 'Não foi possível conectar ao serviço de API. Por favor verifique sua conexão e tente novamente.',
 
     // About Page
     'about.title': 'Sobre o IGmetryx',
@@ -2961,6 +2964,7 @@ const translations: Record<Language, Record<string, string>> = {
     'common.whyThisHelps': 'Pourquoi cela aide',
     'common.limitations': 'Limitations et Notes Importantes',
     'common.or': 'Ou',
+    'api.unreachable': 'Impossible de joindre le service API. Veuillez vérifier votre connexion et réessayer.',
     
     // About Page
     'about.title': 'À Propos d\'IGmetryx',

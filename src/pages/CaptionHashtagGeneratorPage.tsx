@@ -69,13 +69,7 @@ export const CaptionHashtagGeneratorPage = () => {
               : 'Too many requests. Please try again later.';
           }
         } else if (response.error?.code === 'NETWORK_ERROR') {
-          errorMessage = language === 'pt-br'
-            ? 'Erro de rede. Verifique se o servidor da API está rodando.'
-            : language === 'es'
-            ? 'Error de red. Verifica que el servidor de la API esté ejecutándose.'
-            : language === 'fr'
-            ? 'Erreur réseau. Vérifiez que le serveur API est en cours d\'exécution.'
-            : 'Network error. Please check if the API server is running.';
+          errorMessage = t('api.unreachable');
         } else {
           errorMessage = errorMessage || (language === 'pt-br' 
             ? 'Algo deu errado ao gerar o conteúdo. Tente novamente em alguns segundos.'
