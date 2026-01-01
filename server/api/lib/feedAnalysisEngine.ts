@@ -254,11 +254,45 @@ function calculateOverallConsistency(analyses: ImageAnalysis[]): number {
   return Math.min(10, Math.max(0, consistencyScore));
 }
 
+// Intensity type and sanitizer
+const INTENSITY_PROMPTS = { low: '', medium: '', high: '' } as const;
+type Intensity = keyof typeof INTENSITY_PROMPTS;
+
+/**
+ * Sanitize intensity value from request input
+ * Defaults to "medium" if invalid
+ */
+function sanitizeIntensity(raw: unknown): Intensity {
+  if (raw === 'low' || raw === 'high') {
+    return raw;
+  }
+  return 'medium';
+}
+
+/**
+ * Get intensity level from score
+ */
+function getIntensityFromScore(score: number): Intensity {
+  if (score >= 7) return 'high';
+  if (score >= 4) return 'medium';
+  return 'low';
+}
+
+type LanguageCode = 'EN' | 'FR' | 'PT-BR' | 'ES';
+
+interface ExplanationTexts {
+  colorBalance: Record<Intensity, string>;
+  visualRhythm: Record<Intensity, string>;
+  contrastReadability: Record<Intensity, string>;
+  contentVariety: Record<Intensity, string>;
+  overallConsistency: Record<Intensity, string>;
+}
+
 function generateExplanations(
   breakdown: FeedAnalysisResult['breakdown'],
-  language: 'EN' | 'FR' | 'PT-BR' | 'ES'
+  language: 'EN' | 'FR' | 'PT-BR' | 'ES' | 'en' | 'fr' | 'pt-BR' | 'es'
 ): FeedAnalysisResult['breakdown'] {
-  const explanations: Record<string, Record<string, string>> = {
+  const explanations: Record<LanguageCode, ExplanationTexts> = {
     EN: {
       colorBalance: {
         high: 'Your feed has a well-balanced mix of light and dark images.',
@@ -370,7 +404,7 @@ function generateExplanations(
   };
 
   // Normalize language code - ensure correct mapping
-  let normalizedLang: string = 'EN';
+  let normalizedLang: LanguageCode = 'EN';
   if (language === 'PT-BR' || language === 'pt-BR') {
     normalizedLang = 'PT-BR';
   } else if (language === 'FR' || language === 'fr') {
@@ -382,48 +416,28 @@ function generateExplanations(
   }
   
   console.log(`[Feed Analysis Engine] Language mapping: ${language} -> ${normalizedLang}`);
-  const lang = explanations[normalizedLang] || explanations.EN;
+  const lang: ExplanationTexts = explanations[normalizedLang] || explanations.EN;
   
   return {
     colorBalance: {
       score: breakdown.colorBalance.score,
-      explanation: breakdown.colorBalance.score >= 7
-        ? lang.colorBalance.high
-        : breakdown.colorBalance.score >= 4
-        ? lang.colorBalance.medium
-        : lang.colorBalance.low,
+      explanation: lang.colorBalance[getIntensityFromScore(breakdown.colorBalance.score)],
     },
     visualRhythm: {
       score: breakdown.visualRhythm.score,
-      explanation: breakdown.visualRhythm.score >= 7
-        ? lang.visualRhythm.high
-        : breakdown.visualRhythm.score >= 4
-        ? lang.visualRhythm.medium
-        : lang.visualRhythm.low,
+      explanation: lang.visualRhythm[getIntensityFromScore(breakdown.visualRhythm.score)],
     },
     contrastReadability: {
       score: breakdown.contrastReadability.score,
-      explanation: breakdown.contrastReadability.score >= 7
-        ? lang.contrastReadability.high
-        : breakdown.contrastReadability.score >= 4
-        ? lang.contrastReadability.medium
-        : lang.contrastReadability.low,
+      explanation: lang.contrastReadability[getIntensityFromScore(breakdown.contrastReadability.score)],
     },
     contentVariety: {
       score: breakdown.contentVariety.score,
-      explanation: breakdown.contentVariety.score >= 7
-        ? lang.contentVariety.high
-        : breakdown.contentVariety.score >= 4
-        ? lang.contentVariety.medium
-        : lang.contentVariety.low,
+      explanation: lang.contentVariety[getIntensityFromScore(breakdown.contentVariety.score)],
     },
     overallConsistency: {
       score: breakdown.overallConsistency.score,
-      explanation: breakdown.overallConsistency.score >= 7
-        ? lang.overallConsistency.high
-        : breakdown.overallConsistency.score >= 4
-        ? lang.overallConsistency.medium
-        : lang.overallConsistency.low,
+      explanation: lang.overallConsistency[getIntensityFromScore(breakdown.overallConsistency.score)],
     },
   };
 }
