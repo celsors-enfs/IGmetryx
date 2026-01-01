@@ -61,7 +61,7 @@ async function analyzeImage(imageData: ImageData): Promise<ImageAnalysis> {
     // Convert to RGB if needed (handles CMYK, grayscale, etc.)
     // Only convert if not already RGB
     if (metadata.channels && metadata.channels !== 3 && metadata.channels !== 4) {
-      image = image.rgb();
+      image = image.toColourspace('srgb');
       console.log(`[Feed Analysis Engine] Converted to RGB (was ${metadata.channels} channels)`);
     }
     

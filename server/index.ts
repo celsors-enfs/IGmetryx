@@ -35,7 +35,7 @@ import { handleGetResult } from './api/feed-analyzer/result.js';
 import { rateLimitMiddleware } from './api/lib/rateLimitMiddleware.js';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 // Validate environment on startup
 const hasDeepSeekKey = Boolean(process.env.DEEPSEEK_API_KEY?.trim());

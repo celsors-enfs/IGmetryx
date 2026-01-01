@@ -271,7 +271,9 @@ async function callDeepSeek(body: RequestBody): Promise<ApiResponse> {
 async function fallbackToLocalGenerator(body: RequestBody): Promise<ApiResponse> {
   // Import local generator - use dynamic import with proper path
   // Note: In production, this path may need adjustment based on build structure
-  const generationModule = await import('../../src/lib/generation/index.js');
+  // Using variable to avoid TypeScript checking the import path at compile time
+  const generationPath: string = '../../../src/lib/generation/index.js';
+  const generationModule = await import(generationPath) as { generateAll: (input: string, locale: string, tone: string, length: string, hashtagCount: number) => any };
   const { generateAll } = generationModule;
   
   const localeMap: Record<string, 'pt-BR' | 'en' | 'es' | 'fr'> = {
@@ -328,7 +330,7 @@ export async function handleCaptionsHashtags(req: Request, res: Response) {
     if (!validationResult.success) {
       return res.status(400).json({
         error: 'Invalid request',
-        details: validationResult.error.errors,
+        details: validationResult.error.issues,
       });
     }
 

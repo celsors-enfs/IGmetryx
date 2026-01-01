@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "vite",
     "dev:api": "npx tsx watch server/index.ts",
@@ -57,7 +60,8 @@
     "three": "^0.175.0",
     "uuid": "^11.1.0",
     "vaul": "^1.1.2",
-    "zod": "^4.1.5"
+    "zod": "^4.1.5",
+    "lru-cache": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
