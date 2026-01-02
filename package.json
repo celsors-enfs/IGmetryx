@@ -10,6 +10,7 @@
     "dev": "vite",
     "dev:api": "npx tsx watch server/index.ts",
     "dev:all": "npx concurrently \"npm run dev\" \"npm run dev:api\"",
+    "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "tsc -b && vite build",
     "build:server": "tsc -p tsconfig.server.json && node -e \"require('fs').writeFileSync('dist/server/package.json', JSON.stringify({type:'commonjs'}, null, 2))\"",
     "start:api": "node dist/server/index.js",
