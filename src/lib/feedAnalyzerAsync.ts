@@ -58,7 +58,7 @@ export async function startAnalysis(request: AnalyzeFeedRequest, signal?: AbortS
   }
   formData.append('language', request.language);
 
-  const apiUrl = `${API_BASE_URL}/api/feed-analyzer/start`;
+  const apiUrl = API_BASE_URL ? `${API_BASE_URL}/api/feed-analyzer/start` : '/api/feed-analyzer/start';
   console.log('[Feed Analyzer Async] Starting analysis job...', {
     language: request.language,
     contentType: request.contentType,
@@ -123,7 +123,7 @@ export async function startAnalysis(request: AnalyzeFeedRequest, signal?: AbortS
  * Get job status
  */
 export async function getJobStatus(jobId: string): Promise<JobStatus> {
-  const apiUrl = `${API_BASE_URL}/api/feed-analyzer/status/${jobId}`;
+  const apiUrl = API_BASE_URL ? `${API_BASE_URL}/api/feed-analyzer/status/${jobId}` : `/api/feed-analyzer/status/${jobId}`;
   
   const response = await fetch(apiUrl);
 
@@ -153,7 +153,7 @@ export async function getJobStatus(jobId: string): Promise<JobStatus> {
  * Get job result
  */
 export async function getJobResult(jobId: string): Promise<FeedAnalysisResult> {
-  const apiUrl = `${API_BASE_URL}/api/feed-analyzer/result/${jobId}`;
+  const apiUrl = API_BASE_URL ? `${API_BASE_URL}/api/feed-analyzer/result/${jobId}` : `/api/feed-analyzer/result/${jobId}`;
   
   const response = await fetch(apiUrl);
 

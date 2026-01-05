@@ -77,6 +77,16 @@ const isVercelDomain = (origin: string): boolean => {
   }
 };
 
+// Allow custom domain igmetryx.com
+const isCustomDomain = (origin: string): boolean => {
+  try {
+    const url = new URL(origin);
+    return url.hostname === 'igmetryx.com' || url.hostname.endsWith('.igmetryx.com');
+  } catch {
+    return false;
+  }
+};
+
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
@@ -89,6 +99,11 @@ app.use(cors({
     
     // Check Vercel domains
     if (isVercelDomain(origin)) {
+      return callback(null, true);
+    }
+    
+    // Check custom domain
+    if (isCustomDomain(origin)) {
       return callback(null, true);
     }
     
