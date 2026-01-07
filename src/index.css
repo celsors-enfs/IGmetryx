@@ -186,6 +186,8 @@ img.broken-image-fallback {
   overflow-y: auto !important;
   display: block !important;
   visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 /* Style individual ad units within the container - make them square and smaller */
@@ -205,6 +207,29 @@ img.broken-image-fallback {
   height: 200px !important;
   object-fit: cover !important;
   border-radius: 8px;
+}
+
+/* Ensure ad container is always visible on desktop */
+@media (min-width: 1025px) {
+  #container-f3930ade229bc20a0c616d08517f4ef9 {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Banner 468x60 styling */
+#ad-banner-468x60 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 60px;
+}
+
+#ad-banner-468x60 iframe {
+  max-width: 100%;
+  height: 60px;
 }
 
 /* Hide ads on mobile and small screens */
