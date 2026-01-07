@@ -722,6 +722,8 @@ export const ReelCoverGeneratorPage = () => {
         </div>
       </div>
 
+      <AdBanner728x90 />
+      <AdBanner468x60 />
       <FooterSection />
     </div>
   );
