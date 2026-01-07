@@ -173,8 +173,8 @@ img.broken-image-fallback {
   scroll-margin-top: 96px;
 }
 
-/* Adsterra Native Banner positioning */
-#container-f3930ade229bc20a0c616d08517f4ef9 {
+/* Adsterra Native Banner positioning - Right Side */
+#container-f3930ade229bc20a0c616d08517f4ef9.ad-container-right {
   position: fixed !important;
   top: 100px !important;
   right: 20px !important;
@@ -191,15 +191,41 @@ img.broken-image-fallback {
   background: transparent !important;
 }
 
-/* Force container to be visible even when empty */
-#container-f3930ade229bc20a0c616d08517f4ef9:empty::before {
+/* Adsterra Native Banner positioning - Left Side */
+#container-f3930ade229bc20a0c616d08517f4ef9-left.ad-container-left {
+  position: fixed !important;
+  top: 100px !important;
+  left: 20px !important;
+  z-index: 1000 !important;
+  max-width: 200px !important;
+  width: 200px !important;
+  min-height: 100px !important;
+  max-height: calc(100vh - 120px) !important;
+  overflow-y: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  background: transparent !important;
+}
+
+/* Force containers to be visible even when empty */
+#container-f3930ade229bc20a0c616d08517f4ef9:empty::before,
+#container-f3930ade229bc20a0c616d08517f4ef9-left:empty::before {
   content: '';
   display: block;
   min-height: 100px;
 }
 
-/* Style individual ad units within the container - make them square and smaller */
-#container-f3930ade229bc20a0c616d08517f4ef9 > * {
+/* Limit to 2 ads per container */
+.ad-container-right > *:nth-child(n+3),
+.ad-container-left > *:nth-child(n+3) {
+  display: none !important;
+}
+
+/* Style individual ad units within both containers - make them square and smaller */
+#container-f3930ade229bc20a0c616d08517f4ef9 > *,
+#container-f3930ade229bc20a0c616d08517f4ef9-left > * {
   margin-bottom: 12px;
   display: block !important;
   max-width: 200px !important;
@@ -207,9 +233,11 @@ img.broken-image-fallback {
   height: auto !important;
 }
 
-/* Force square aspect ratio for ad images */
+/* Force square aspect ratio for ad images in both containers */
 #container-f3930ade229bc20a0c616d08517f4ef9 img,
-#container-f3930ade229bc20a0c616d08517f4ef9 a img {
+#container-f3930ade229bc20a0c616d08517f4ef9 a img,
+#container-f3930ade229bc20a0c616d08517f4ef9-left img,
+#container-f3930ade229bc20a0c616d08517f4ef9-left a img {
   max-width: 200px !important;
   width: 200px !important;
   height: 200px !important;
@@ -217,12 +245,47 @@ img.broken-image-fallback {
   border-radius: 8px;
 }
 
-/* Ensure ad container is always visible on desktop */
+/* Ensure ad containers are always visible on desktop */
 @media (min-width: 1025px) {
-  #container-f3930ade229bc20a0c616d08517f4ef9 {
+  #container-f3930ade229bc20a0c616d08517f4ef9,
+  #container-f3930ade229bc20a0c616d08517f4ef9-left {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+  }
+}
+
+/* Hide ads on mobile and small screens */
+@media (max-width: 1024px) {
+  #container-f3930ade229bc20a0c616d08517f4ef9,
+  #container-f3930ade229bc20a0c616d08517f4ef9-left {
+    display: none !important;
+  }
+}
+
+/* Ensure ads don't overlap with content on medium screens */
+@media (min-width: 1025px) and (max-width: 1400px) {
+  #container-f3930ade229bc20a0c616d08517f4ef9 {
+    right: 10px !important;
+    max-width: 180px !important;
+    width: 180px !important;
+  }
+  
+  #container-f3930ade229bc20a0c616d08517f4ef9-left {
+    left: 10px !important;
+    max-width: 180px !important;
+    width: 180px !important;
+  }
+  
+  #container-f3930ade229bc20a0c616d08517f4ef9 > *,
+  #container-f3930ade229bc20a0c616d08517f4ef9-left > *,
+  #container-f3930ade229bc20a0c616d08517f4ef9 img,
+  #container-f3930ade229bc20a0c616d08517f4ef9 a img,
+  #container-f3930ade229bc20a0c616d08517f4ef9-left img,
+  #container-f3930ade229bc20a0c616d08517f4ef9-left a img {
+    max-width: 180px !important;
+    width: 180px !important;
+    height: 180px !important;
   }
 }
 
@@ -238,28 +301,4 @@ img.broken-image-fallback {
 #ad-banner-468x60 iframe {
   max-width: 100%;
   height: 60px;
-}
-
-/* Hide ads on mobile and small screens */
-@media (max-width: 1024px) {
-  #container-f3930ade229bc20a0c616d08517f4ef9 {
-    display: none !important;
-  }
-}
-
-/* Ensure ads don't overlap with content on medium screens */
-@media (min-width: 1025px) and (max-width: 1400px) {
-  #container-f3930ade229bc20a0c616d08517f4ef9 {
-    right: 10px !important;
-    max-width: 180px !important;
-    width: 180px !important;
-  }
-  
-  #container-f3930ade229bc20a0c616d08517f4ef9 > *,
-  #container-f3930ade229bc20a0c616d08517f4ef9 img,
-  #container-f3930ade229bc20a0c616d08517f4ef9 a img {
-    max-width: 180px !important;
-    width: 180px !important;
-    height: 180px !important;
-  }
 }
