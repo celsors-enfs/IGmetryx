@@ -329,6 +329,27 @@ img.broken-image-fallback {
   visibility: visible !important;
 }
 
+/* Banner 160x600 styling */
+[id^="ad-banner-160x600"],
+[id^="ad-banner-160x600"] > * {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 600px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+[id^="ad-banner-160x600"] iframe {
+  max-width: 100%;
+  height: 600px;
+  display: block !important;
+  visibility: visible !important;
+}
+
 /* Ensure banners are visible on mobile - OVERRIDE ALL HIDDEN STATES */
 @media (max-width: 768px) {
   /* Force visibility of all banner containers and wrappers */
@@ -426,6 +447,30 @@ img.broken-image-fallback {
     width: 120px !important;
     height: 120px !important;
     object-fit: cover !important;
+  }
+  
+  /* Banner 160x600 on mobile */
+  [id^="ad-banner-160x600"],
+  [id^="ad-banner-160x600"] > * {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 600px !important;
+    margin: 0 auto !important;
+  }
+  
+  [id^="ad-banner-160x600"] iframe,
+  [id^="ad-banner-160x600"] > iframe,
+  [id^="ad-banner-160x600"] div iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 600px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0 auto !important;
   }
 }
 
