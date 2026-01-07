@@ -46,11 +46,28 @@ export const AdBanner728x90 = () => {
   }, []);
 
   return (
-    <div className="w-full flex justify-center items-center py-4 my-4 bg-gray-50">
+    <div 
+      className="w-full flex justify-center items-center py-4 my-4 bg-gray-50"
+      style={{ 
+        display: 'flex', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        minHeight: '90px'
+      }}
+    >
       <div 
         ref={containerRef}
         id={`ad-banner-728x90-${instanceIdRef.current}`}
         className="min-h-[90px] w-full max-w-[728px] flex justify-center items-center mx-auto"
+        style={{ 
+          display: 'flex', 
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          minHeight: '90px',
+          maxWidth: '728px'
+        }}
       ></div>
     </div>
   );

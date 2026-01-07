@@ -98,7 +98,7 @@ export const InstagramHubPage = () => {
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3" style={{
                     fontSize: "28px",
-                    fontFamily: "Inter",
+                    fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
                     fontWeight: "500",
                     letterSpacing: "-0.05em"
                   }}>

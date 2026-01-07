@@ -402,11 +402,48 @@ img.broken-image-fallback {
     max-width: 120px !important;
     width: 120px !important;
     z-index: 1000 !important;
+    pointer-events: auto !important;
   }
   
   #container-f3930ade229bc20a0c616d08517f4ef9 > * {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+    max-width: 120px !important;
+    width: 120px !important;
+    height: 120px !important;
+  }
+  
+  #container-f3930ade229bc20a0c616d08517f4ef9 img,
+  #container-f3930ade229bc20a0c616d08517f4ef9 a img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-width: 120px !important;
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Ensure tool card fonts are consistent on mobile */
+@media (max-width: 768px) {
+  /* Tool cards in InstagramHubPage and HeroSection */
+  h3[style*="fontSize"]:not([style*="fontSize: 0"]),
+  h3[style*="fontFamily"]:not([style*="fontFamily: '']") {
+    font-family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" !important;
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.05em !important;
+  }
+  
+  /* More specific selectors for tool cards */
+  section[class*="px-4"] h3,
+  main[class*="pt-32"] h3,
+  .grid[class*="grid-cols"] h3 {
+    font-family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" !important;
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.05em !important;
   }
 }
