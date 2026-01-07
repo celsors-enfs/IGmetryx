@@ -429,28 +429,26 @@ img.broken-image-fallback {
   }
 }
 
-/* Ensure tool card fonts are consistent on mobile */
+/* Ensure tool card fonts match desktop on mobile - only for tool cards with Inter */
 @media (max-width: 768px) {
-  /* Force tool card titles to use Inter font */
-  section[class*="px-4"] h3,
-  section[class*="px-4"] h3[style*="fontSize"],
-  section[class*="px-4"] h3[style*="fontFamily"],
-  main[class*="pt-32"] h3,
-  main[class*="pt-32"] h3[style*="fontSize"],
-  main[class*="pt-32"] h3[style*="fontFamily"],
-  .grid[class*="grid-cols"] h3,
-  .grid[class*="grid-cols"] h3[style*="fontSize"],
-  .grid[class*="grid-cols"] h3[style*="fontFamily"],
-  div[class*="bg-rose-50"] h3,
-  div[class*="bg-pink-50"] h3,
-  div[class*="bg-blue-50"] h3,
-  div[class*="bg-yellow-50"] h3,
-  div[class*="bg-green-50"] h3,
-  div[class*="bg-purple-50"] h3 {
+  /* Tool cards in InstagramHubPage - maintain Inter font from desktop */
+  section[class*="px-4"] .grid[class*="grid-cols"] h3[style*="fontFamily"] {
     font-family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" !important;
     font-size: 28px !important;
     font-weight: 500 !important;
     letter-spacing: -0.05em !important;
-    line-height: 1.2 !important;
+  }
+  
+  /* Tool cards in HeroSection - maintain Inter font from desktop */
+  main[class*="pt-32"] div[class*="bg-rose-50"] h3[style*="fontFamily"],
+  main[class*="pt-32"] div[class*="bg-pink-50"] h3[style*="fontFamily"],
+  main[class*="pt-32"] div[class*="bg-blue-50"] h3[style*="fontFamily"],
+  main[class*="pt-32"] div[class*="bg-yellow-50"] h3[style*="fontFamily"],
+  main[class*="pt-32"] div[class*="bg-green-50"] h3[style*="fontFamily"],
+  main[class*="pt-32"] div[class*="bg-purple-50"] h3[style*="fontFamily"] {
+    font-family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" !important;
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.05em !important;
   }
 }
