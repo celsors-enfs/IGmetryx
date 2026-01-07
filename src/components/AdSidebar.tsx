@@ -2,79 +2,31 @@ import { useEffect } from 'react';
 
 export const AdSidebar = () => {
   useEffect(() => {
-    const distributeAds = () => {
-      const sourceContainer = document.getElementById('container-f3930ade229bc20a0c616d08517f4ef9');
-      const leftContainer = document.getElementById('ad-container-left');
-      const rightContainer = document.getElementById('container-f3930ade229bc20a0c616d08517f4ef9');
-      
-      if (!sourceContainer || !leftContainer || !rightContainer) return;
-      
-      // Get all ads from source container
-      const allAds = Array.from(sourceContainer.children);
-      
-      if (allAds.length === 0) return;
-      
-      // Clear both containers first
-      leftContainer.innerHTML = '';
-      rightContainer.innerHTML = '';
-      
-      // Distribute: first 2 to left, next 2 to right
-      const leftAds = allAds.slice(0, 2);
-      const rightAds = allAds.slice(2, 4);
-      
-      // Clone and add to left container
-      leftAds.forEach((ad) => {
-        const clonedAd = ad.cloneNode(true) as HTMLElement;
-        leftContainer.appendChild(clonedAd);
-      });
-      
-      // Move remaining ads to right container (or keep original if less than 4)
-      if (allAds.length >= 4) {
-        rightAds.forEach((ad) => {
-          rightContainer.appendChild(ad);
-        });
-        // Hide any ads beyond the first 4
-        allAds.slice(4).forEach((ad) => {
-          (ad as HTMLElement).style.display = 'none';
-        });
-      } else {
-        // If less than 4 ads, put remaining in right container
-        allAds.slice(2).forEach((ad) => {
-          rightContainer.appendChild(ad);
-        });
-      }
-      
-      // Ensure both containers are visible
-      leftContainer.style.setProperty('display', 'block', 'important');
-      leftContainer.style.setProperty('visibility', 'visible', 'important');
-      leftContainer.style.setProperty('opacity', '1', 'important');
-      
-      rightContainer.style.setProperty('display', 'block', 'important');
-      rightContainer.style.setProperty('visibility', 'visible', 'important');
-      rightContainer.style.setProperty('opacity', '1', 'important');
-    };
-
-    // Wait for ads to load, then distribute
-    const checkAndDistribute = () => {
-      const sourceContainer = document.getElementById('container-f3930ade229bc20a0c616d08517f4ef9');
-      if (sourceContainer && sourceContainer.children.length > 0) {
-        distributeAds();
+    const ensureAdsVisible = () => {
+      const container = document.getElementById('container-f3930ade229bc20a0c616d08517f4ef9');
+      if (container) {
+        // Force visibility
+        container.style.setProperty('display', 'block', 'important');
+        container.style.setProperty('visibility', 'visible', 'important');
+        container.style.setProperty('opacity', '1', 'important');
+        container.style.setProperty('position', 'fixed', 'important');
+        container.style.setProperty('z-index', '1000', 'important');
       }
     };
 
-    // Check multiple times as ads load
-    setTimeout(checkAndDistribute, 1000);
-    setTimeout(checkAndDistribute, 3000);
-    setTimeout(checkAndDistribute, 5000);
-    setTimeout(checkAndDistribute, 8000);
+    // Run immediately and multiple times
+    ensureAdsVisible();
+    setTimeout(ensureAdsVisible, 100);
+    setTimeout(ensureAdsVisible, 1000);
+    setTimeout(ensureAdsVisible, 3000);
 
-    // Watch for changes in source container
-    const sourceContainer = document.getElementById('container-f3930ade229bc20a0c616d08517f4ef9');
-    if (sourceContainer) {
+    // Watch for container changes
+    const container = document.getElementById('container-f3930ade229bc20a0c616d08517f4ef9');
+    if (container) {
       const observer = new MutationObserver(() => {
-        checkAndDistribute();
+        ensureAdsVisible();
       });
-      observer.observe(sourceContainer, { childList: true, subtree: true });
+      observer.observe(container, { childList: true, subtree: true, attributes: true });
       
       return () => observer.disconnect();
     }
