@@ -70,10 +70,15 @@ export const AdBanner728x90 = () => {
       const allElements = document.querySelectorAll('iframe, div[id*="728x90"], div[class*="728x90"]');
       allElements.forEach((el: Element) => {
         const htmlEl = el as HTMLElement;
-        if (htmlEl.src && htmlEl.src.includes('fd5e713fffe17e898e3165198deb6008')) {
-          htmlEl.style.setProperty('display', 'block', 'important');
-          htmlEl.style.setProperty('visibility', 'visible', 'important');
-          htmlEl.style.setProperty('opacity', '1', 'important');
+        
+        // Check if it's an iframe and has the src property
+        if (el.tagName === 'IFRAME') {
+          const iframe = el as HTMLIFrameElement;
+          if (iframe.src && iframe.src.includes('fd5e713fffe17e898e3165198deb6008')) {
+            htmlEl.style.setProperty('display', 'block', 'important');
+            htmlEl.style.setProperty('visibility', 'visible', 'important');
+            htmlEl.style.setProperty('opacity', '1', 'important');
+          }
         } else if (htmlEl.innerHTML && htmlEl.innerHTML.includes('fd5e713fffe17e898e3165198deb6008')) {
           htmlEl.style.setProperty('display', 'block', 'important');
           htmlEl.style.setProperty('visibility', 'visible', 'important');
