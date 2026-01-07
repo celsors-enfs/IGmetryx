@@ -2,33 +2,13 @@ import { useEffect, useRef } from 'react';
 
 export const AdBanner468x60 = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const scriptLoadedRef = useRef(false);
-  const instanceIdRef = useRef<string>(`b468-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`);
+  const instanceIdRef = useRef<string>(`b468-${Date.now()}`);
 
   useEffect(() => {
-    const ensureVisible = () => {
-      if (wrapperRef.current) {
-        wrapperRef.current.style.setProperty('display', 'block', 'important');
-        wrapperRef.current.style.setProperty('visibility', 'visible', 'important');
-        wrapperRef.current.style.setProperty('opacity', '1', 'important');
-      }
-      if (containerRef.current) {
-        containerRef.current.style.setProperty('display', 'block', 'important');
-        containerRef.current.style.setProperty('visibility', 'visible', 'important');
-        containerRef.current.style.setProperty('opacity', '1', 'important');
-        containerRef.current.style.setProperty('min-height', '60px', 'important');
-        containerRef.current.style.setProperty('width', '100%', 'important');
-        containerRef.current.style.setProperty('max-width', '468px', 'important');
-      }
-    };
-
     const loadBanner = () => {
-      if (!containerRef.current || scriptLoadedRef.current) return;
+      if (!containerRef.current) return;
 
-      ensureVisible();
-
-      // Set atOptions globally before script loads
+      // Set atOptions
       (window as any).atOptions = {
         'key': '5122725d16be0a76aecfc0db70048d68',
         'format': 'iframe',
@@ -37,60 +17,78 @@ export const AdBanner468x60 = () => {
         'params': {}
       };
 
-      // Check if script exists
-      const scriptId = `adsterra-468x60-${instanceIdRef.current}`;
-      let existingScript = document.getElementById(scriptId) as HTMLScriptElement;
-      
-      if (!existingScript) {
-        existingScript = document.createElement('script');
-        existingScript.type = 'text/javascript';
-        existingScript.src = 'https://www.topcreativeformat.com/5122725d16be0a76aecfc0db70048d68/invoke.js';
-        existingScript.async = true;
-        existingScript.id = scriptId;
-        existingScript.setAttribute('data-ad-key', '5122725d16be0a76aecfc0db70048d68');
-        
-        // Append to document body, not container
-        document.body.appendChild(existingScript);
-        
-        // Also try appending to container as fallback
-        if (containerRef.current) {
-          containerRef.current.appendChild(existingScript.cloneNode(true) as HTMLScriptElement);
-        }
+      // Create script if it doesn't exist
+      const scriptId = 'adsterra-468x60-script';
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.type = 'text/javascript';
+        script.src = 'https://www.topcreativeformat.com/5122725d16be0a76aecfc0db70048d68/invoke.js';
+        script.async = true;
+        containerRef.current.appendChild(script);
       }
 
-      scriptLoadedRef.current = true;
-      ensureVisible();
+      // Ensure container is visible
+      containerRef.current.style.setProperty('display', 'block', 'important');
+      containerRef.current.style.setProperty('visibility', 'visible', 'important');
+      containerRef.current.style.setProperty('opacity', '1', 'important');
     };
 
-    // Immediate load
-    ensureVisible();
-    loadBanner();
+    const ensureVisible = () => {
+      if (containerRef.current) {
+        containerRef.current.style.setProperty('display', 'block', 'important');
+        containerRef.current.style.setProperty('visibility', 'visible', 'important');
+        containerRef.current.style.setProperty('opacity', '1', 'important');
+      }
+      
+      // Find and show all related iframes
+      const allIframes = document.querySelectorAll('iframe');
+      allIframes.forEach((iframe: HTMLIFrameElement) => {
+        if (iframe.src && iframe.src.includes('5122725d16be0a76aecfc0db70048d68')) {
+          iframe.style.setProperty('display', 'block', 'important');
+          iframe.style.setProperty('visibility', 'visible', 'important');
+          iframe.style.setProperty('opacity', '1', 'important');
+        }
+      });
+    };
 
-    // Retry with delays
+    // Load banner
+    loadBanner();
+    ensureVisible();
+
+    // Retry multiple times
     const timers = [
-      setTimeout(() => { ensureVisible(); loadBanner(); }, 100),
-      setTimeout(() => { ensureVisible(); loadBanner(); }, 500),
-      setTimeout(() => { ensureVisible(); loadBanner(); }, 1500),
-      setTimeout(() => { ensureVisible(); loadBanner(); }, 3000),
-      setTimeout(() => { ensureVisible(); loadBanner(); }, 5000),
+      setTimeout(() => { loadBanner(); ensureVisible(); }, 100),
+      setTimeout(() => { loadBanner(); ensureVisible(); }, 500),
+      setTimeout(() => { loadBanner(); ensureVisible(); }, 1000),
+      setTimeout(() => { loadBanner(); ensureVisible(); }, 2000),
+      setTimeout(() => { loadBanner(); ensureVisible(); }, 5000),
     ];
 
-    // Observer for container
+    // Observer
     if (containerRef.current) {
       const observer = new MutationObserver(() => {
         ensureVisible();
-        if (!scriptLoadedRef.current) loadBanner();
       });
       observer.observe(containerRef.current, { 
         childList: true, 
         subtree: true, 
-        attributes: true,
-        attributeFilter: ['style', 'class']
+        attributes: true 
+      });
+      
+      // Also observe document for new iframes
+      const docObserver = new MutationObserver(() => {
+        ensureVisible();
+      });
+      docObserver.observe(document.body, { 
+        childList: true, 
+        subtree: true 
       });
       
       return () => {
         timers.forEach(clearTimeout);
         observer.disconnect();
+        docObserver.disconnect();
       };
     }
 
@@ -101,7 +99,6 @@ export const AdBanner468x60 = () => {
 
   return (
     <div 
-      ref={wrapperRef}
       className="w-full flex justify-center items-center py-4 my-4 bg-gray-50"
       style={{ 
         display: 'block', 
