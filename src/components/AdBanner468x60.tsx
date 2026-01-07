@@ -17,15 +17,24 @@ export const AdBanner468x60 = () => {
         'params': {}
       };
 
-      // Create script if it doesn't exist
-      const scriptId = 'adsterra-468x60-script';
-      if (!document.getElementById(scriptId)) {
-        const script = document.createElement('script');
-        script.id = scriptId;
-        script.type = 'text/javascript';
-        script.src = 'https://www.topcreativeformat.com/5122725d16be0a76aecfc0db70048d68/invoke.js';
-        script.async = true;
-        containerRef.current.appendChild(script);
+      // Create script if it doesn't exist - use unique ID per instance
+      const scriptId = `adsterra-468x60-script-${instanceIdRef.current}`;
+      let existingScript = document.getElementById(scriptId) as HTMLScriptElement;
+      
+      if (!existingScript) {
+        // Check if any script with this key exists
+        const allScripts = document.querySelectorAll('script[src*="5122725d16be0a76aecfc0db70048d68"]');
+        if (allScripts.length === 0) {
+          existingScript = document.createElement('script');
+          existingScript.id = scriptId;
+          existingScript.type = 'text/javascript';
+          existingScript.src = 'https://www.topcreativeformat.com/5122725d16be0a76aecfc0db70048d68/invoke.js';
+          existingScript.async = true;
+          existingScript.setAttribute('data-ad-key', '5122725d16be0a76aecfc0db70048d68');
+          
+          // Append to container
+          containerRef.current.appendChild(existingScript);
+        }
       }
 
       // Ensure container is visible
@@ -101,7 +110,9 @@ export const AdBanner468x60 = () => {
     <div 
       className="w-full flex justify-center items-center py-4 my-4 bg-gray-50"
       style={{ 
-        display: 'block', 
+        display: 'flex', 
+        justifyContent: 'center',
+        alignItems: 'center',
         visibility: 'visible', 
         opacity: 1,
         width: '100%',
@@ -111,14 +122,17 @@ export const AdBanner468x60 = () => {
       <div 
         ref={containerRef}
         id={`ad-banner-468x60-${instanceIdRef.current}`}
-        className="min-h-[60px] w-full max-w-[468px] flex justify-center items-center"
+        className="min-h-[60px] w-full max-w-[468px] flex justify-center items-center mx-auto"
         style={{ 
-          display: 'block', 
+          display: 'flex', 
+          justifyContent: 'center',
+          alignItems: 'center',
           visibility: 'visible', 
           opacity: 1,
           minHeight: '60px',
           width: '100%',
-          maxWidth: '468px'
+          maxWidth: '468px',
+          margin: '0 auto'
         }}
       ></div>
     </div>
