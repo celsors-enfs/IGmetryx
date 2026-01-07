@@ -343,11 +343,16 @@ img.broken-image-fallback {
   text-align: center !important;
 }
 
-[id^="ad-banner-160x600"] iframe {
-  max-width: 100%;
-  height: 600px;
+[id^="ad-banner-160x600"] iframe,
+[id^="ad-banner-160x600"] > iframe,
+[id^="ad-banner-160x600"] div iframe {
+  max-width: 100% !important;
+  width: 160px !important;
+  height: 600px !important;
   display: block !important;
   visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 auto !important;
 }
 
 /* Ensure banners are visible on mobile - OVERRIDE ALL HIDDEN STATES */

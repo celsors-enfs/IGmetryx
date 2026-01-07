@@ -295,7 +295,6 @@ export const ReelCoverGeneratorPage = () => {
   return (
     <div className="relative min-h-screen w-full bg-white font-sans overflow-hidden pt-20">
       <NavigationHeader />
-      <AdBanner728x90 />
       
       <main className="pt-32 pb-20 px-4">
         <div className="max-w-6xl mx-auto">

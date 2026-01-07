@@ -22,13 +22,20 @@ export const AdBanner160x600 = () => {
 
       // Create script if it doesn't exist
       const scriptId = `adsterra-160x600-${instanceIdRef.current}`;
-      if (!document.getElementById(scriptId)) {
-        const script = document.createElement('script');
-        script.id = scriptId;
-        script.type = 'text/javascript';
-        script.src = 'https://www.topcreativeformat.com/d39a8cf1c58bc0b5b60cadcade8a8b74/invoke.js';
-        script.async = true;
-        containerRef.current.appendChild(script);
+      const existingScript = document.getElementById(scriptId);
+      
+      if (!existingScript) {
+        // Check if any script with this key exists
+        const allScripts = document.querySelectorAll('script[src*="d39a8cf1c58bc0b5b60cadcade8a8b74"]');
+        if (allScripts.length === 0) {
+          const script = document.createElement('script');
+          script.id = scriptId;
+          script.type = 'text/javascript';
+          script.src = 'https://www.topcreativeformat.com/d39a8cf1c58bc0b5b60cadcade8a8b74/invoke.js';
+          script.async = true;
+          script.setAttribute('data-ad-key', 'd39a8cf1c58bc0b5b60cadcade8a8b74');
+          containerRef.current.appendChild(script);
+        }
       }
 
       // Force visibility
@@ -36,7 +43,22 @@ export const AdBanner160x600 = () => {
         containerRef.current.style.setProperty('display', 'flex', 'important');
         containerRef.current.style.setProperty('visibility', 'visible', 'important');
         containerRef.current.style.setProperty('opacity', '1', 'important');
+        containerRef.current.style.setProperty('width', '100%', 'important');
+        containerRef.current.style.setProperty('min-height', '600px', 'important');
+        containerRef.current.style.setProperty('max-width', '160px', 'important');
       }
+      
+      // Find and show related iframes
+      const allIframes = document.querySelectorAll('iframe');
+      allIframes.forEach((iframe: HTMLIFrameElement) => {
+        if (iframe.src && iframe.src.includes('d39a8cf1c58bc0b5b60cadcade8a8b74')) {
+          iframe.style.setProperty('display', 'block', 'important');
+          iframe.style.setProperty('visibility', 'visible', 'important');
+          iframe.style.setProperty('opacity', '1', 'important');
+          iframe.style.setProperty('width', '160px', 'important');
+          iframe.style.setProperty('height', '600px', 'important');
+        }
+      });
 
       scriptLoadedRef.current = true;
     };

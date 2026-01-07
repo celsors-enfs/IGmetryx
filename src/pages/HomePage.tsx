@@ -14,9 +14,8 @@ export const HomePage = () => {
       <AdBanner728x90 />
       <FAQSection />
       <AdBanner468x60 />
-      <AdBanner728x90 />
       <AboutCTASection />
-      <AdBanner468x60 />
+      <AdBanner728x90 />
       <FooterSection />
     </>
   );
