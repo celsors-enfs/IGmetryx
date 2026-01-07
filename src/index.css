@@ -333,7 +333,8 @@ img.broken-image-fallback {
 @media (max-width: 768px) {
   /* Force visibility of all banner containers and wrappers */
   [id^="ad-banner-468x60"],
-  [id^="ad-banner-728x90"] {
+  [id^="ad-banner-728x90"],
+  div[class*="bg-gray-50"][class*="w-full"][class*="flex"] {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -344,6 +345,8 @@ img.broken-image-fallback {
     max-width: 100% !important;
     min-height: auto !important;
     margin: 0 auto !important;
+    position: relative !important;
+    z-index: 1 !important;
   }
   
   [id^="ad-banner-468x60"] > *,
@@ -428,22 +431,26 @@ img.broken-image-fallback {
 
 /* Ensure tool card fonts are consistent on mobile */
 @media (max-width: 768px) {
-  /* Tool cards in InstagramHubPage and HeroSection */
-  h3[style*="fontSize"]:not([style*="fontSize: 0"]),
-  h3[style*="fontFamily"]:not([style*="fontFamily: '']") {
-    font-family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" !important;
-    font-size: 28px !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.05em !important;
-  }
-  
-  /* More specific selectors for tool cards */
+  /* Force tool card titles to use Inter font */
   section[class*="px-4"] h3,
+  section[class*="px-4"] h3[style*="fontSize"],
+  section[class*="px-4"] h3[style*="fontFamily"],
   main[class*="pt-32"] h3,
-  .grid[class*="grid-cols"] h3 {
+  main[class*="pt-32"] h3[style*="fontSize"],
+  main[class*="pt-32"] h3[style*="fontFamily"],
+  .grid[class*="grid-cols"] h3,
+  .grid[class*="grid-cols"] h3[style*="fontSize"],
+  .grid[class*="grid-cols"] h3[style*="fontFamily"],
+  div[class*="bg-rose-50"] h3,
+  div[class*="bg-pink-50"] h3,
+  div[class*="bg-blue-50"] h3,
+  div[class*="bg-yellow-50"] h3,
+  div[class*="bg-green-50"] h3,
+  div[class*="bg-purple-50"] h3 {
     font-family: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" !important;
     font-size: 28px !important;
     font-weight: 500 !important;
     letter-spacing: -0.05em !important;
+    line-height: 1.2 !important;
   }
 }

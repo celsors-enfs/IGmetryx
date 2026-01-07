@@ -31,17 +31,28 @@ export const AdBanner468x60 = () => {
         containerRef.current.appendChild(script);
       }
 
+      // Force visibility
+      if (containerRef.current) {
+        containerRef.current.style.setProperty('display', 'flex', 'important');
+        containerRef.current.style.setProperty('visibility', 'visible', 'important');
+        containerRef.current.style.setProperty('opacity', '1', 'important');
+      }
+
       scriptLoadedRef.current = true;
     };
 
-    // Load once
+    // Load immediately
     loadBanner();
     
-    // Retry once after delay
-    const timer = setTimeout(loadBanner, 1000);
+    // Retry multiple times
+    const timers = [
+      setTimeout(loadBanner, 500),
+      setTimeout(loadBanner, 2000),
+      setTimeout(loadBanner, 5000),
+    ];
 
     return () => {
-      clearTimeout(timer);
+      timers.forEach(clearTimeout);
     };
   }, []);
 
