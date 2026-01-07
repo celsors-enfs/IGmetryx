@@ -228,10 +228,14 @@ img.broken-image-fallback {
 @media (max-width: 1024px) {
   #container-f3930ade229bc20a0c616d08517f4ef9 {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     right: 10px !important;
     max-width: 150px !important;
     width: 150px !important;
     top: 80px !important;
+    position: fixed !important;
+    z-index: 1000 !important;
   }
   
   #container-f3930ade229bc20a0c616d08517f4ef9 > *,
@@ -240,6 +244,29 @@ img.broken-image-fallback {
     max-width: 150px !important;
     width: 150px !important;
     height: 150px !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* Force mobile visibility */
+@media (max-width: 768px) {
+  #container-f3930ade229bc20a0c616d08517f4ef9 {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    right: 5px !important;
+    max-width: 120px !important;
+    width: 120px !important;
+    top: 70px !important;
+  }
+  
+  #container-f3930ade229bc20a0c616d08517f4ef9 > *,
+  #container-f3930ade229bc20a0c616d08517f4ef9 img,
+  #container-f3930ade229bc20a0c616d08517f4ef9 a img {
+    max-width: 120px !important;
+    width: 120px !important;
+    height: 120px !important;
   }
 }
 
@@ -296,32 +323,58 @@ img.broken-image-fallback {
   visibility: visible !important;
 }
 
-/* Ensure banners are visible on mobile */
+/* Ensure banners are visible on mobile - OVERRIDE ALL HIDDEN STATES */
 @media (max-width: 768px) {
   [id^="ad-banner-468x60"],
-  [id^="ad-banner-728x90"] {
-    display: flex !important;
+  [id^="ad-banner-728x90"],
+  [id^="ad-banner-468x60"] > *,
+  [id^="ad-banner-728x90"] > * {
+    display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     width: 100% !important;
     max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Wrapper divs */
+  [id^="ad-banner-728x90"],
+  [id^="ad-banner-468x60"] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   
   [id^="ad-banner-728x90"] {
-    max-width: 728px !important;
+    max-width: 100% !important;
+    min-height: 90px !important;
   }
   
   [id^="ad-banner-468x60"] {
-    max-width: 468px !important;
+    max-width: 100% !important;
+    min-height: 60px !important;
   }
   
-  [id^="ad-banner-728x90"] iframe {
+  [id^="ad-banner-728x90"] iframe,
+  [id^="ad-banner-728x90"] > iframe,
+  [id^="ad-banner-728x90"] div iframe {
     max-width: 100% !important;
     width: 100% !important;
+    height: 90px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
-  [id^="ad-banner-468x60"] iframe {
+  [id^="ad-banner-468x60"] iframe,
+  [id^="ad-banner-468x60"] > iframe,
+  [id^="ad-banner-468x60"] div iframe {
     max-width: 100% !important;
     width: 100% !important;
+    height: 60px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
