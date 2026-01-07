@@ -191,6 +191,15 @@ img.broken-image-fallback {
   background: transparent !important;
 }
 
+/* Ensure container is never hidden */
+#container-f3930ade229bc20a0c616d08517f4ef9[style*="display: none"] {
+  display: block !important;
+}
+
+#container-f3930ade229bc20a0c616d08517f4ef9[style*="visibility: hidden"] {
+  visibility: visible !important;
+}
+
 /* Limit to 2 ads in container */
 #container-f3930ade229bc20a0c616d08517f4ef9 > *:nth-child(n+3) {
   display: none !important;
