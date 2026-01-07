@@ -6,8 +6,6 @@ export const AdBanner468x60 = () => {
   const instanceIdRef = useRef<string>(`banner-${Math.random().toString(36).substr(2, 9)}`);
 
   useEffect(() => {
-    if (!containerRef.current || scriptLoadedRef.current) return;
-
     const loadBanner = () => {
       if (!containerRef.current) return;
 
@@ -37,10 +35,10 @@ export const AdBanner468x60 = () => {
 
       // Ensure container is visible
       if (containerRef.current) {
-        containerRef.current.style.display = 'block';
-        containerRef.current.style.visibility = 'visible';
-        containerRef.current.style.opacity = '1';
-        containerRef.current.style.minHeight = '60px';
+        containerRef.current.style.setProperty('display', 'block', 'important');
+        containerRef.current.style.setProperty('visibility', 'visible', 'important');
+        containerRef.current.style.setProperty('opacity', '1', 'important');
+        containerRef.current.style.setProperty('min-height', '60px', 'important');
       }
 
       scriptLoadedRef.current = true;
@@ -49,11 +47,30 @@ export const AdBanner468x60 = () => {
     // Load immediately
     loadBanner();
 
-    // Also try after a delay to ensure DOM is ready
-    const timeoutId = setTimeout(loadBanner, 500);
+    // Also try after delays to ensure DOM is ready
+    const timeoutId1 = setTimeout(loadBanner, 500);
+    const timeoutId2 = setTimeout(loadBanner, 2000);
+    const timeoutId3 = setTimeout(loadBanner, 5000);
+
+    // Watch for container changes
+    if (containerRef.current) {
+      const observer = new MutationObserver(() => {
+        loadBanner();
+      });
+      observer.observe(containerRef.current, { childList: true, subtree: true, attributes: true });
+      
+      return () => {
+        clearTimeout(timeoutId1);
+        clearTimeout(timeoutId2);
+        clearTimeout(timeoutId3);
+        observer.disconnect();
+      };
+    }
 
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId1);
+      clearTimeout(timeoutId2);
+      clearTimeout(timeoutId3);
     };
   }, []);
 

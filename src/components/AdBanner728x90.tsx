@@ -9,17 +9,7 @@ export const AdBanner728x90 = () => {
     const loadBanner = () => {
       if (!containerRef.current) return;
 
-      // Set atOptions before loading script - use unique key per instance
-      const uniqueKey = `atOptions_728x90_${instanceIdRef.current}`;
-      (window as any)[uniqueKey] = {
-        'key': 'fd5e713fffe17e898e3165198deb6008',
-        'format': 'iframe',
-        'height': 90,
-        'width': 728,
-        'params': {}
-      };
-      
-      // Also set global atOptions for compatibility
+      // Set atOptions before loading script
       (window as any).atOptions = {
         'key': 'fd5e713fffe17e898e3165198deb6008',
         'format': 'iframe',
@@ -55,29 +45,24 @@ export const AdBanner728x90 = () => {
     };
 
     // Load immediately
-    if (!scriptLoadedRef.current) {
-      loadBanner();
-    }
+    loadBanner();
 
     // Also try after delays to ensure DOM is ready
-    const timeoutId1 = setTimeout(() => {
-      if (!scriptLoadedRef.current) loadBanner();
-    }, 500);
-    
-    const timeoutId2 = setTimeout(() => {
-      if (!scriptLoadedRef.current) loadBanner();
-    }, 2000);
+    const timeoutId1 = setTimeout(loadBanner, 500);
+    const timeoutId2 = setTimeout(loadBanner, 2000);
+    const timeoutId3 = setTimeout(loadBanner, 5000);
 
     // Watch for container changes
     if (containerRef.current) {
       const observer = new MutationObserver(() => {
-        if (!scriptLoadedRef.current) loadBanner();
+        loadBanner();
       });
       observer.observe(containerRef.current, { childList: true, subtree: true, attributes: true });
       
       return () => {
         clearTimeout(timeoutId1);
         clearTimeout(timeoutId2);
+        clearTimeout(timeoutId3);
         observer.disconnect();
       };
     }
@@ -85,6 +70,7 @@ export const AdBanner728x90 = () => {
     return () => {
       clearTimeout(timeoutId1);
       clearTimeout(timeoutId2);
+      clearTimeout(timeoutId3);
     };
   }, []);
 

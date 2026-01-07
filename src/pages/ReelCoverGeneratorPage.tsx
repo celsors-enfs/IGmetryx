@@ -556,6 +556,7 @@ export const ReelCoverGeneratorPage = () => {
       </main>
 
       <ToolNavBar />
+      <AdBanner468x60 />
 
       <section className="relative px-4 py-20 bg-white">
         <div className="max-w-6xl mx-auto">
@@ -722,7 +723,6 @@ export const ReelCoverGeneratorPage = () => {
         </div>
       </div>
 
-      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

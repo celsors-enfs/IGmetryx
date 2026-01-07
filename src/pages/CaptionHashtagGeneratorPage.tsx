@@ -481,6 +481,7 @@ export const CaptionHashtagGeneratorPage = () => {
       <section className="relative px-4 py-12 bg-white">
         <ToolNavBar />
       </section>
+      <AdBanner468x60 />
 
       {/* How It Works Section */}
       <section className="relative px-4 py-20 bg-white">
@@ -608,7 +609,6 @@ export const CaptionHashtagGeneratorPage = () => {
         </div>
       </section>
 
-      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

@@ -1284,6 +1284,7 @@ export const ProfileAnalyzerPage = () => {
       </main>
 
       <ToolNavBar />
+      <AdBanner468x60 />
 
       {/* How it works */}
       <section className="relative px-4 py-20 bg-white">
@@ -1408,7 +1409,6 @@ export const ProfileAnalyzerPage = () => {
         </div>
       </section>
 
-      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

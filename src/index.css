@@ -224,10 +224,22 @@ img.broken-image-fallback {
   }
 }
 
-/* Hide ads on mobile and small screens */
+/* Show ads on mobile but adjust size */
 @media (max-width: 1024px) {
   #container-f3930ade229bc20a0c616d08517f4ef9 {
-    display: none !important;
+    display: block !important;
+    right: 10px !important;
+    max-width: 150px !important;
+    width: 150px !important;
+    top: 80px !important;
+  }
+  
+  #container-f3930ade229bc20a0c616d08517f4ef9 > *,
+  #container-f3930ade229bc20a0c616d08517f4ef9 img,
+  #container-f3930ade229bc20a0c616d08517f4ef9 a img {
+    max-width: 150px !important;
+    width: 150px !important;
+    height: 150px !important;
   }
 }
 
@@ -282,4 +294,34 @@ img.broken-image-fallback {
   height: 90px;
   display: block !important;
   visibility: visible !important;
+}
+
+/* Ensure banners are visible on mobile */
+@media (max-width: 768px) {
+  [id^="ad-banner-468x60"],
+  [id^="ad-banner-728x90"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  [id^="ad-banner-728x90"] {
+    max-width: 728px !important;
+  }
+  
+  [id^="ad-banner-468x60"] {
+    max-width: 468px !important;
+  }
+  
+  [id^="ad-banner-728x90"] iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  [id^="ad-banner-468x60"] iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
 }
