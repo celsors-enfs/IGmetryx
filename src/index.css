@@ -172,3 +172,38 @@ img.broken-image-fallback {
 [id] {
   scroll-margin-top: 96px;
 }
+
+/* Adsterra Native Banner positioning */
+#container-f3930ade229bc20a0c616d08517f4ef9 {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 300px;
+  width: 100%;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Style individual ad units within the container */
+#container-f3930ade229bc20a0c616d08517f4ef9 > * {
+  margin-bottom: 16px;
+}
+
+/* Hide ads on mobile and small screens */
+@media (max-width: 1024px) {
+  #container-f3930ade229bc20a0c616d08517f4ef9 {
+    display: none;
+  }
+}
+
+/* Ensure ads don't overlap with content on medium screens */
+@media (min-width: 1025px) and (max-width: 1400px) {
+  #container-f3930ade229bc20a0c616d08517f4ef9 {
+    right: 10px;
+    max-width: 250px;
+  }
+}
