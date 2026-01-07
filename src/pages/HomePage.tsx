@@ -12,11 +12,11 @@ export const HomePage = () => {
       <NavigationHeader />
       <HeroSection />
       <AdBanner728x90 />
-      <AdBanner468x60 />
       <FAQSection />
-      <AdBanner728x90 />
       <AdBanner468x60 />
+      <AdBanner728x90 />
       <AboutCTASection />
+      <AdBanner468x60 />
       <FooterSection />
     </>
   );

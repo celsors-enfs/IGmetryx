@@ -6,12 +6,20 @@ export const AdBanner728x90 = () => {
   const instanceIdRef = useRef<string>(`banner-${Math.random().toString(36).substr(2, 9)}`);
 
   useEffect(() => {
-    if (!containerRef.current || scriptLoadedRef.current) return;
-
     const loadBanner = () => {
       if (!containerRef.current) return;
 
-      // Set atOptions before loading script
+      // Set atOptions before loading script - use unique key per instance
+      const uniqueKey = `atOptions_728x90_${instanceIdRef.current}`;
+      (window as any)[uniqueKey] = {
+        'key': 'fd5e713fffe17e898e3165198deb6008',
+        'format': 'iframe',
+        'height': 90,
+        'width': 728,
+        'params': {}
+      };
+      
+      // Also set global atOptions for compatibility
       (window as any).atOptions = {
         'key': 'fd5e713fffe17e898e3165198deb6008',
         'format': 'iframe',
@@ -37,28 +45,51 @@ export const AdBanner728x90 = () => {
 
       // Ensure container is visible
       if (containerRef.current) {
-        containerRef.current.style.display = 'block';
-        containerRef.current.style.visibility = 'visible';
-        containerRef.current.style.opacity = '1';
-        containerRef.current.style.minHeight = '90px';
+        containerRef.current.style.setProperty('display', 'block', 'important');
+        containerRef.current.style.setProperty('visibility', 'visible', 'important');
+        containerRef.current.style.setProperty('opacity', '1', 'important');
+        containerRef.current.style.setProperty('min-height', '90px', 'important');
       }
 
       scriptLoadedRef.current = true;
     };
 
     // Load immediately
-    loadBanner();
+    if (!scriptLoadedRef.current) {
+      loadBanner();
+    }
 
-    // Also try after a delay to ensure DOM is ready
-    const timeoutId = setTimeout(loadBanner, 500);
+    // Also try after delays to ensure DOM is ready
+    const timeoutId1 = setTimeout(() => {
+      if (!scriptLoadedRef.current) loadBanner();
+    }, 500);
+    
+    const timeoutId2 = setTimeout(() => {
+      if (!scriptLoadedRef.current) loadBanner();
+    }, 2000);
+
+    // Watch for container changes
+    if (containerRef.current) {
+      const observer = new MutationObserver(() => {
+        if (!scriptLoadedRef.current) loadBanner();
+      });
+      observer.observe(containerRef.current, { childList: true, subtree: true, attributes: true });
+      
+      return () => {
+        clearTimeout(timeoutId1);
+        clearTimeout(timeoutId2);
+        observer.disconnect();
+      };
+    }
 
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId1);
+      clearTimeout(timeoutId2);
     };
   }, []);
 
   return (
-    <div className="w-full flex justify-center items-center py-8 my-8 bg-gray-50">
+    <div className="w-full flex justify-center items-center py-4 my-4 bg-gray-50">
       <div 
         ref={containerRef}
         id={`ad-banner-728x90-${instanceIdRef.current}`}
