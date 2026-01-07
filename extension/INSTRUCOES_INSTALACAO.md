@@ -47,3 +47,4 @@
 Os ícones (icon16.png, icon48.png, icon128.png) são opcionais. A extensão funcionará mesmo sem eles, mas o Chrome mostrará um ícone padrão.
 
 
+

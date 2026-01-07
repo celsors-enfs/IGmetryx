@@ -113,3 +113,4 @@ Agora o sistema tem logs detalhados que mostram:
 
 **Sempre verifique os logs do servidor para diagnosticar problemas!**
 
+

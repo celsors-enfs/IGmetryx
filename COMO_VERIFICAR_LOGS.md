@@ -140,3 +140,4 @@ Deve retornar:
 
 Se retornar `"deepseek": "not_configured"`, você precisa configurar a API key.
 
+

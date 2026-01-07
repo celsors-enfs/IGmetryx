@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationHeader } from '../components/generated/NavigationHeader';
 import { FooterSection } from '../components/generated/FooterSection';
+import { AdBanner468x60 } from '../components/AdBanner468x60';
 import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -108,6 +109,7 @@ export const ContactPage = () => {
         </div>
       </main>
 
+      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

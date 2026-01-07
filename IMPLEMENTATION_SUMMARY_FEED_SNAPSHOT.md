@@ -170,3 +170,4 @@ Implemented a complete Chrome Extension (Manifest V3) + Next.js/React web UI tha
 6. Publish to Chrome Web Store (if distributing publicly)
 
 
+

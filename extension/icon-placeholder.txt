@@ -10,3 +10,4 @@ These icons should be placed in the /extension directory.
 You can create simple placeholder icons or use a design tool to create proper icons with the IGmetryx branding.
 
 
+

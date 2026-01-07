@@ -164,3 +164,4 @@ npm run test:api
 - No "AI" mentions in UI (AdSense-safe)
 - Disclaimer included at bottom of results
 
+

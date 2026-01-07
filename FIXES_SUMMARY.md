@@ -121,3 +121,4 @@ node test-api.js
 3. Verify UI shows real captions (no placeholders)
 4. Check browser console for API response logs (dev mode)
 
+

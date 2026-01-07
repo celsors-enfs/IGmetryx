@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { NavigationHeader } from '../components/generated/NavigationHeader';
 import { FooterSection } from '../components/generated/FooterSection';
+import { AdBanner468x60 } from '../components/AdBanner468x60';
 import { BarChart3, MessageSquare, User, ImageIcon, Grid3x3, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -115,6 +116,7 @@ export const InstagramHubPage = () => {
         </div>
       </section>
 
+      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

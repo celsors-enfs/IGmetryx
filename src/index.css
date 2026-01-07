@@ -188,6 +188,14 @@ img.broken-image-fallback {
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
+  background: transparent !important;
+}
+
+/* Force container to be visible even when empty */
+#container-f3930ade229bc20a0c616d08517f4ef9:empty::before {
+  content: '';
+  display: block;
+  min-height: 100px;
 }
 
 /* Style individual ad units within the container - make them square and smaller */

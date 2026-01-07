@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationHeader } from '../components/generated/NavigationHeader';
 import { FooterSection } from '../components/generated/FooterSection';
+import { AdBanner468x60 } from '../components/AdBanner468x60';
 import { ToolNavBar } from '../components/ToolNavBar';
 import { ArrowUpRight, ChevronDown, Copy, Check } from 'lucide-react';
 import { generateBios, generateCTALines } from '../lib/bioGenerator';
@@ -391,6 +392,7 @@ export const BioGeneratorPage = () => {
         </div>
       </div>
 
+      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

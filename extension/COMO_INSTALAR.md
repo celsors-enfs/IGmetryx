@@ -52,3 +52,4 @@
 A extensão precisa de ícones, mas você pode usar ícones temporários ou criar depois. Por enquanto, o Chrome mostrará um ícone padrão, mas a extensão deve funcionar normalmente.
 
 
+

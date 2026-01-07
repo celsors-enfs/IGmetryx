@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavigationHeader } from '../components/generated/NavigationHeader';
 import { FooterSection } from '../components/generated/FooterSection';
+import { AdBanner468x60 } from '../components/AdBanner468x60';
 import { ToolNavBar } from '../components/ToolNavBar';
 import { Upload, X, Image as ImageIcon, Loader2, CheckCircle2, AlertCircle, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -811,6 +812,7 @@ export const FeedAnalyzerPage = () => {
         </div>
       </section>
 
+      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

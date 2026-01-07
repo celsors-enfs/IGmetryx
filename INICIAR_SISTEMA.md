@@ -151,3 +151,4 @@ npm install
 - Verifique se a API está rodando: `curl http://localhost:3001/health`
 - Verifique os logs do terminal para erros
 
+

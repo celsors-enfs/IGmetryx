@@ -13,11 +13,13 @@ import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './pages/TermsOfServicePage';
 import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate';
 import { AnchorScroll } from './components/AnchorScroll';
+import { AdSidebar } from './components/AdSidebar';
 
 function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
+        <AdSidebar />
         <ScrollToTopOnNavigate />
         <AnchorScroll />
         <Routes>

@@ -170,3 +170,4 @@
 - [ ] No English leaking in non-English modes
 - [ ] No mentions of "AI", "model", "prompt", or provider names in UI
 
+

@@ -128,3 +128,4 @@ Go to the "Caption & Hashtag Generator" tool and test generation.
 - No "AI" or "offline fallback" mentions in UI
 - AdSense-safe disclaimers included
 
+

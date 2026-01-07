@@ -179,3 +179,4 @@ These are only visible in API responses, not in the UI.
 
 That's it! The system is now fully configured to use DeepSeek for real caption generation.
 
+

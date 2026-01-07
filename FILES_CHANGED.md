@@ -115,3 +115,4 @@ curl -X POST http://localhost:3001/api/ig/generate \
 - ✅ Proper error handling and validation
 - ✅ AdSense-safe (no thin content pages)
 
+
