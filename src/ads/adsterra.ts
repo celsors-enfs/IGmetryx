@@ -215,7 +215,9 @@ export function ensureContainerVisible(
   config: AdSlotConfig,
   position?: 'left' | 'right'
 ): void {
-  // Force visibility
+  if (!container || !container.parentNode) return;
+  
+  // Force visibility - CRITICAL
   container.style.setProperty('display', 'flex', 'important');
   container.style.setProperty('visibility', 'visible', 'important');
   container.style.setProperty('opacity', '1', 'important');
@@ -238,6 +240,16 @@ export function ensureContainerVisible(
     container.style.setProperty('right', '20px', 'important');
     container.style.setProperty('top', '100px', 'important');
     container.style.setProperty('z-index', '1000', 'important');
+  }
+  
+  // Ensure parent doesn't clip
+  let parent = container.parentElement;
+  while (parent && parent !== document.body) {
+    const style = window.getComputedStyle(parent);
+    if (style.overflow === 'hidden' || style.overflowX === 'hidden' || style.overflowY === 'hidden') {
+      parent.style.setProperty('overflow', 'visible', 'important');
+    }
+    parent = parent.parentElement;
   }
   
   // Ensure iframes are visible and correctly sized

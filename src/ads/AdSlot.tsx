@@ -318,9 +318,30 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     );
   }
 
+  // Ensure visibility on every render using callback ref
+  const setContainerRef = (node: HTMLDivElement | null) => {
+    containerRef.current = node;
+    if (node) {
+      // Immediately ensure visibility when container is set
+      ensureContainerVisible(node, config, position);
+      
+      // Also set up a recurring check
+      const checkInterval = setInterval(() => {
+        if (node && node.parentNode) {
+          ensureContainerVisible(node, config, position);
+        } else {
+          clearInterval(checkInterval);
+        }
+      }, 1000);
+      
+      // Cleanup interval on unmount
+      return () => clearInterval(checkInterval);
+    }
+  };
+
   return (
     <div
-      ref={containerRef}
+      ref={setContainerRef}
       id={`ad-slot-${type}-${instanceIdRef.current}`}
       className={`ad-slot ad-slot-${type} ${className}`}
       style={containerStyle}
