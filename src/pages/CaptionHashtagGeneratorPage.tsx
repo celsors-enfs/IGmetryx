@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { NavigationHeader } from '../components/generated/NavigationHeader';
 import { FooterSection } from '../components/generated/FooterSection';
-import { AdSlot } from '../ads/AdSlot';
+import { AdBanner468x60 } from '../components/AdBanner468x60';
+import { AdBanner728x90 } from '../components/AdBanner728x90';
 import { ToolNavBar } from '../components/ToolNavBar';
 import { ArrowUpRight, ChevronDown, Copy, Check, RefreshCw } from 'lucide-react';
 import { generateCaptionsHashtags } from '../lib/api/captions-hashtags';
@@ -479,7 +480,7 @@ export const CaptionHashtagGeneratorPage = () => {
       <section className="relative px-4 py-12 bg-white">
         <ToolNavBar />
       </section>
-      <AdSlot type="banner-468x60" />
+      <AdBanner468x60 />
 
       {/* How It Works Section */}
       <section className="relative px-4 py-20 bg-white">
@@ -607,8 +608,8 @@ export const CaptionHashtagGeneratorPage = () => {
         </div>
       </section>
 
-      <AdSlot type="banner-728x90" />
-      <AdSlot type="banner-468x60" />
+      <AdBanner728x90 />
+      <AdBanner468x60 />
       <FooterSection />
     </div>
   );

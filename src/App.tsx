@@ -13,19 +13,17 @@ import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsOfServicePage } from './pages/TermsOfServicePage';
 import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate';
 import { AnchorScroll } from './components/AnchorScroll';
-import { AdsterraProvider } from './ads/AdsterraProvider';
-import { AdSlot } from './ads/AdSlot';
-import './ads/AdSlot.css';
+import { AdSidebar } from './components/AdSidebar';
+import { AdBanner160x600 } from './components/AdBanner160x600';
 
 function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
-        <AdsterraProvider>
-          <AdSlot type="banner-160x600" position="left" />
-          <AdSlot type="native" position="right" />
-          <ScrollToTopOnNavigate />
-          <AnchorScroll />
+        <AdBanner160x600 />
+        <AdSidebar />
+        <ScrollToTopOnNavigate />
+        <AnchorScroll />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/instagram" element={<InstagramHubPage />} />
@@ -39,7 +37,6 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
         </Routes>
-        </AdsterraProvider>
       </BrowserRouter>
     </LanguageProvider>
   );
