@@ -73,13 +73,11 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     try {
       setState(prev => ({ ...prev, status: 'loading' }));
 
-      // For native ads, load script into existing container from index.html
+      // For native ads, use existing container from index.html
       if (type === 'native') {
-        // Load script via loadScriptOnce (can be in head/body)
-        await loadScriptOnce(config);
         const nativeContainer = document.getElementById(config.containerId!);
         if (nativeContainer) {
-          // Load native ad script
+          // Load native ad script into body/head (not container)
           await loadScriptOnce(config);
           debugLog(`[${type}] Native script loaded`);
           
@@ -101,39 +99,37 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
           return false;
         }
       } else {
-        // For banner ads: Follow exact pattern from old working code
-        // 1. Set atOptions FIRST
-        (window as any).atOptions = {
-          key: config.key,
-          format: 'iframe',
-          height: config.height,
-          width: config.width,
-          params: {},
-        };
-        debugLog(`[${type}] atOptions set directly on window`);
-        
-        // 2. Inject script directly into container
+        // For banner ads: Set atOptions FIRST (before script injection)
+        setAtOptions(config);
+        debugLog(`[${type}] atOptions set`);
+
+        // Ensure container has proper ID (Adsterra looks for it)
+        const containerId = `ad-banner-${type}-${instanceIdRef.current}`;
+        if (!containerRef.current.id || containerRef.current.id !== containerId) {
+          containerRef.current.id = containerId;
+          debugLog(`[${type}] Container ID set: ${containerId}`);
+        }
+
+        // Inject script DIRECTLY into container (NOT head/body)
+        // Adsterra needs script in container to know where to inject iframe
         const scriptId = `adsterra-${type}-${instanceIdRef.current}`;
-        if (!document.getElementById(scriptId) && containerRef.current) {
-          // Ensure container ID is set
-          const containerId = `ad-banner-${type}-${instanceIdRef.current}`;
-          if (!containerRef.current.id || containerRef.current.id !== containerId) {
-            containerRef.current.id = containerId;
-          }
-          
-          // Create and inject script - EXACTLY like old code
+        if (!document.getElementById(scriptId)) {
           const script = document.createElement('script');
           script.id = scriptId;
           script.type = 'text/javascript';
           script.src = config.scriptUrl;
           script.async = true;
+          script.setAttribute('data-ad-key', config.key);
+          script.setAttribute('data-cfasync', 'false');
           
-          // Append to container (script injects iframe into its parent)
+          // CRITICAL: Append to container, not head/body
           containerRef.current.appendChild(script);
-          debugLog(`[${type}] Script injected into container: ${containerRef.current.id}`);
+          debugLog(`[${type}] Script injected into container: ${containerId}`);
+        } else {
+          debugLog(`[${type}] Script already exists: ${scriptId}`);
         }
 
-        // Wait for iframe with multiple checks
+        // Wait for iframe with multiple checks (like old code)
         let iframe: HTMLIFrameElement | null = null;
         
         // Check immediately
@@ -145,7 +141,7 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
           return true;
         }
 
-        // Wait and check multiple times
+        // Wait and check multiple times (like old working code)
         for (let i = 0; i < 10; i++) {
           await new Promise(resolve => setTimeout(resolve, 500));
           iframe = containerRef.current.querySelector('iframe') as HTMLIFrameElement;
@@ -249,7 +245,7 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     return () => {
       window.removeEventListener('adsterra:route-change', handleRouteChange);
     };
-  }, [type, config, position]);
+  }, []);
 
   // Ensure visibility on mount and updates
   useEffect(() => {
