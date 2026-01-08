@@ -101,54 +101,36 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
           return false;
         }
       } else {
-        // For banner ads: CRITICAL - Set atOptions BEFORE creating script
-        setAtOptions(config);
-        debugLog(`[${type}] atOptions set`);
+        // For banner ads: Follow exact pattern from old working code
+        // 1. Set atOptions FIRST
+        (window as any).atOptions = {
+          key: config.key,
+          format: 'iframe',
+          height: config.height,
+          width: config.width,
+          params: {},
+        };
+        debugLog(`[${type}] atOptions set directly on window`);
         
-        // Inject script directly into container (DO NOT use loadScriptOnce for banners)
+        // 2. Inject script directly into container
         const scriptId = `adsterra-${type}-${instanceIdRef.current}`;
-        const existingScript = document.getElementById(scriptId);
-        
-        if (!existingScript && containerRef.current) {
-          // Ensure container ID is set - script needs to know where to inject iframe
+        if (!document.getElementById(scriptId) && containerRef.current) {
+          // Ensure container ID is set
           const containerId = `ad-banner-${type}-${instanceIdRef.current}`;
           if (!containerRef.current.id || containerRef.current.id !== containerId) {
             containerRef.current.id = containerId;
           }
           
-          // Create and inject script directly into container
+          // Create and inject script - EXACTLY like old code
           const script = document.createElement('script');
           script.id = scriptId;
           script.type = 'text/javascript';
           script.src = config.scriptUrl;
           script.async = true;
-          script.setAttribute('data-ad-key', config.key);
-          script.setAttribute('data-cfasync', 'false');
           
-          // CRITICAL: Append script to container (not head/body)
-          // Adsterra script injects iframe into the parent container of the script
+          // Append to container (script injects iframe into its parent)
           containerRef.current.appendChild(script);
           debugLog(`[${type}] Script injected into container: ${containerRef.current.id}`);
-          
-          // Wait for script to load and execute
-          await new Promise<void>((resolve) => {
-            script.onload = () => {
-              debugLog(`[${type}] Script loaded, waiting for iframe...`);
-              resolve();
-            };
-            script.onerror = () => {
-              debugLog(`[${type}] Script failed to load`);
-              resolve(); // Continue anyway
-            };
-            // Timeout after 5s
-            setTimeout(() => {
-              debugLog(`[${type}] Script load timeout`);
-              resolve();
-            }, 5000);
-          });
-          
-          // Ensure atOptions is still set after script load
-          setAtOptions(config);
         }
 
         // Wait for iframe with multiple checks
