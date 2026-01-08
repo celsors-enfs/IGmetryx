@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationHeader } from '../components/generated/NavigationHeader';
 import { FooterSection } from '../components/generated/FooterSection';
-import { AdBanner468x60 } from '../components/AdBanner468x60';
-import { AdBanner728x90 } from '../components/AdBanner728x90';
+import { AdSlot } from '../ads/AdSlot';
 import { ToolNavBar } from '../components/ToolNavBar';
 import { ArrowUpRight, ChevronDown, Check, AlertCircle, Link as LinkIcon } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -1283,7 +1282,6 @@ export const ProfileAnalyzerPage = () => {
       </main>
 
       <ToolNavBar />
-      <AdBanner468x60 />
 
       {/* How it works */}
       <section className="relative px-4 py-20 bg-white">
@@ -1408,8 +1406,8 @@ export const ProfileAnalyzerPage = () => {
         </div>
       </section>
 
-      <AdBanner728x90 />
-      <AdBanner468x60 />
+      <AdSlot type="banner-728x90" />
+      <AdSlot type="banner-468x60" />
       <FooterSection />
     </div>
   );

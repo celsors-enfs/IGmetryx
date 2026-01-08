@@ -1,0 +1,184 @@
+/**
+ * AdSlot Styles
+ * Ensures proper sizing, no cropping, and visibility
+ */
+
+/* Base ad slot container */
+.ad-slot {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: visible !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  min-width: 0 !important;
+}
+
+/* Prevent parent containers from clipping */
+.ad-slot,
+.ad-slot * {
+  box-sizing: border-box;
+}
+
+/* Ensure iframes are visible and correctly sized */
+.ad-slot iframe {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  border: none !important;
+  max-width: 100% !important;
+}
+
+/* Banner 160x600 - Left Sidebar */
+.ad-slot-banner-160x600 {
+  position: fixed !important;
+  left: 20px !important;
+  top: 100px !important;
+  z-index: 999 !important;
+  width: 160px !important;
+  min-height: 600px !important;
+  max-width: 160px !important;
+}
+
+.ad-slot-banner-160x600 iframe {
+  width: 160px !important;
+  height: 600px !important;
+  max-width: 160px !important;
+}
+
+/* Banner 728x90 - Between Sections */
+.ad-slot-banner-728x90 {
+  width: 100% !important;
+  max-width: 728px !important;
+  min-height: 90px !important;
+  margin: 0 auto !important;
+  padding: 16px 0 !important;
+}
+
+.ad-slot-banner-728x90 iframe {
+  width: 728px !important;
+  height: 90px !important;
+  max-width: 100% !important;
+}
+
+/* Banner 468x60 - Between Sections */
+.ad-slot-banner-468x60 {
+  width: 100% !important;
+  max-width: 468px !important;
+  min-height: 60px !important;
+  margin: 0 auto !important;
+  padding: 16px 0 !important;
+}
+
+.ad-slot-banner-468x60 iframe {
+  width: 468px !important;
+  height: 60px !important;
+  max-width: 100% !important;
+}
+
+/* Native Ad Container */
+.ad-slot-native {
+  position: fixed !important;
+  right: 20px !important;
+  top: 100px !important;
+  z-index: 1000 !important;
+  width: 200px !important;
+  min-height: 100px !important;
+  max-height: calc(100vh - 120px) !important;
+  overflow-y: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.ad-slot-native > * {
+  margin-bottom: 12px;
+  display: block !important;
+  max-width: 200px !important;
+  width: 200px !important;
+}
+
+.ad-slot-native img,
+.ad-slot-native a img {
+  max-width: 200px !important;
+  width: 200px !important;
+  height: 200px !important;
+  object-fit: cover !important;
+  border-radius: 8px;
+}
+
+/* Limit native ads to 2 */
+.ad-slot-native > *:nth-child(n+3) {
+  display: none !important;
+}
+
+/* Debug badge */
+.ad-debug-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  font-size: 10px;
+  font-family: monospace;
+  z-index: 10000;
+  pointer-events: none;
+  border-radius: 0 0 4px 0;
+}
+
+/* Responsive - Hide sidebars on mobile */
+@media (max-width: 1024px) {
+  .ad-slot-banner-160x600,
+  .ad-slot-native {
+    display: none !important;
+  }
+  
+  /* Make banners responsive */
+  .ad-slot-banner-728x90 {
+    max-width: 100% !important;
+  }
+  
+  .ad-slot-banner-728x90 iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 90px !important;
+  }
+  
+  .ad-slot-banner-468x60 {
+    max-width: 100% !important;
+  }
+  
+  .ad-slot-banner-468x60 iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 60px !important;
+  }
+}
+
+/* Medium screens - adjust sidebar positions */
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .ad-slot-banner-160x600 {
+    left: 10px !important;
+  }
+  
+  .ad-slot-native {
+    right: 10px !important;
+    max-width: 180px !important;
+    width: 180px !important;
+  }
+}
+
+/* Ensure no parent containers clip ads */
+body,
+#root,
+main,
+section {
+  overflow-x: visible !important;
+}
+
+/* Prevent flex containers from shrinking ad slots */
+.ad-slot {
+  flex: 0 0 auto !important;
+}
+
