@@ -318,26 +318,27 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     );
   }
 
-  // Ensure visibility on every render using callback ref
+  // Ensure visibility when ref is set
   const setContainerRef = (node: HTMLDivElement | null) => {
     containerRef.current = node;
     if (node) {
       // Immediately ensure visibility when container is set
       ensureContainerVisible(node, config, position);
-      
-      // Also set up a recurring check
-      const checkInterval = setInterval(() => {
-        if (node && node.parentNode) {
-          ensureContainerVisible(node, config, position);
-        } else {
-          clearInterval(checkInterval);
-        }
-      }, 1000);
-      
-      // Cleanup interval on unmount
-      return () => clearInterval(checkInterval);
     }
   };
+
+  // Periodic visibility check
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const interval = setInterval(() => {
+      if (containerRef.current && containerRef.current.parentNode) {
+        ensureContainerVisible(containerRef.current, config, position);
+      }
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [type, position]);
 
   return (
     <div
