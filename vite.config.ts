@@ -18,5 +18,11 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    // Fix 404 on refresh for SPA routing
+    historyApiFallback: true,
+  },
+  // Fix preview mode (vite preview) to handle SPA routing
+  preview: {
+    port: 4173,
   },
 });
