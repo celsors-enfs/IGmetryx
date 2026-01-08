@@ -144,11 +144,12 @@ export async function loadScriptOnce(config: AdSlotConfig): Promise<void> {
 }
 
 /**
- * Set atOptions for a banner ad
+ * Set atOptions for a banner ad - MUST be set BEFORE script loads
  */
 export function setAtOptions(config: AdSlotConfig): void {
   if (typeof window === 'undefined') return;
   
+  // Set atOptions on window - script looks for this global
   (window as any).atOptions = {
     key: config.key,
     format: 'iframe',
@@ -157,7 +158,24 @@ export function setAtOptions(config: AdSlotConfig): void {
     params: {},
   };
   
-  debugLog(`Set atOptions for ${config.key}:`, { width: config.width, height: config.height });
+  debugLog(`Set atOptions for ${config.key}:`, { 
+    width: config.width, 
+    height: config.height,
+    key: config.key 
+  });
+  
+  // Also ensure it persists - some scripts may clear it
+  Object.defineProperty(window, 'atOptions', {
+    value: {
+      key: config.key,
+      format: 'iframe',
+      height: config.height,
+      width: config.width,
+      params: {},
+    },
+    writable: true,
+    configurable: true,
+  });
 }
 
 /**

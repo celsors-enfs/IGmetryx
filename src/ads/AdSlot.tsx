@@ -73,13 +73,10 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     try {
       setState(prev => ({ ...prev, status: 'loading' }));
 
-      // Load script
-      await loadScriptOnce(config);
-      debugLog(`[${type}] Script loaded`);
-
-      // Set atOptions for banner ads (not native)
+      // CRITICAL: Set atOptions BEFORE loading script for banner ads
       if (type !== 'native') {
         setAtOptions(config);
+        debugLog(`[${type}] atOptions set before script load`);
       }
 
       // For native ads, load script into existing container from index.html
@@ -88,28 +85,36 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
         if (nativeContainer) {
           // Load native ad script
           await loadScriptOnce(config);
+          debugLog(`[${type}] Native script loaded`);
           
-          // Check for content
-          const hasContent = nativeContainer.children.length > 0;
-          if (hasContent) {
-            setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
-            ensureContainerVisible(nativeContainer, config, position);
-            return true;
-          } else {
-            // Wait a bit for content to appear
+          // Wait and check for content multiple times
+          for (let i = 0; i < 5; i++) {
             await new Promise(resolve => setTimeout(resolve, 1000));
-            const hasContentAfter = nativeContainer.children.length > 0;
-            if (hasContentAfter) {
+            const hasContent = nativeContainer.children.length > 0;
+            if (hasContent) {
+              debugLog(`[${type}] Native content found after ${i + 1}s`);
               setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
               ensureContainerVisible(nativeContainer, config, position);
               return true;
             }
           }
+          setState(prev => ({ ...prev, status: 'failed', error: 'Native content not found' }));
+          return false;
+        } else {
+          setState(prev => ({ ...prev, status: 'failed', error: 'Native container not found' }));
+          return false;
         }
       } else {
-        // Inject script into container
+        // For banner ads: inject script into container AFTER atOptions is set
         const scriptId = `adsterra-${type}-${instanceIdRef.current}`;
-        if (!document.getElementById(scriptId)) {
+        const existingScript = document.getElementById(scriptId);
+        
+        if (!existingScript && containerRef.current) {
+          // Ensure container ID is set so script knows where to inject
+          if (!containerRef.current.id) {
+            containerRef.current.id = `ad-banner-${type}-${instanceIdRef.current}`;
+          }
+          
           const script = document.createElement('script');
           script.id = scriptId;
           script.type = 'text/javascript';
@@ -118,12 +123,16 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
           script.setAttribute('data-ad-key', config.key);
           script.setAttribute('data-cfasync', 'false');
           
+          // Important: Append to container so script can find the target
           containerRef.current.appendChild(script);
-          debugLog(`[${type}] Script injected into container`);
+          debugLog(`[${type}] Script injected into container: ${containerRef.current.id}`);
+          
+          // Wait a bit for script to execute
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
 
-        // Wait for iframe
-        const iframe = await detectIframeInContainer(containerRef.current, config, 5000);
+        // Wait for iframe with longer timeout
+        const iframe = await detectIframeInContainer(containerRef.current, config, 8000);
         
         if (iframe || containerRef.current.querySelector('iframe')) {
           setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
@@ -131,13 +140,21 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
           debugLog(`[${type}] Slot loaded successfully`);
           return true;
         } else {
+          // Check again after another delay
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          const delayedIframe = containerRef.current.querySelector('iframe');
+          if (delayedIframe) {
+            setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
+            ensureContainerVisible(containerRef.current, config, position);
+            debugLog(`[${type}] Slot loaded successfully (delayed)`);
+            return true;
+          }
+          
           setState(prev => ({ ...prev, status: 'failed', error: 'Iframe not detected' }));
-          debugLog(`[${type}] Iframe not detected`);
+          debugLog(`[${type}] Iframe not detected after all attempts`);
           return false;
         }
       }
-
-      return true;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setState(prev => ({ ...prev, status: 'failed', error: errorMessage }));
@@ -198,16 +215,25 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
       debugLog(`[${type}] Route changed, refreshing slot`);
       // Reset and reload
       setState({ status: 'idle', retryCount: 0, iframeFound: false });
+      
+      // Reset atOptions before reload
+      if (type !== 'native') {
+        setAtOptions(config);
+      }
+      
       setTimeout(() => {
-        loadSlot();
-      }, 300);
+        if (containerRef.current) {
+          ensureContainerVisible(containerRef.current, config, position);
+          loadSlot();
+        }
+      }, 500);
     };
 
     window.addEventListener('adsterra:route-change', handleRouteChange);
     return () => {
       window.removeEventListener('adsterra:route-change', handleRouteChange);
     };
-  }, []);
+  }, [type, config, position]);
 
   // Ensure visibility on mount and updates
   useEffect(() => {
