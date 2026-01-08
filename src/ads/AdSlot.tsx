@@ -378,10 +378,15 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     return () => clearInterval(interval);
   }, [type, position]);
 
+  // Container ID for Adsterra (important for script to find container)
+  const containerId = type === 'native' 
+    ? config.containerId 
+    : `ad-banner-${type}-${instanceIdRef.current}`;
+
   return (
     <div
       ref={setContainerRef}
-      id={`ad-slot-${type}-${instanceIdRef.current}`}
+      id={containerId}
       className={`ad-slot ad-slot-${type} ${className}`}
       style={containerStyle}
     >
