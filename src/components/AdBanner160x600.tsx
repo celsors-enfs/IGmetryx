@@ -6,7 +6,32 @@ export const AdBanner160x600 = () => {
   const instanceIdRef = useRef<string>(`b160-${Date.now()}`);
 
   useEffect(() => {
-    if (!containerRef.current || scriptLoadedRef.current) return;
+    const ensureBannerVisible = () => {
+      // Force container visibility
+      const container = document.querySelector('.ad-left-sidebar-container') as HTMLElement;
+      if (container) {
+        container.style.setProperty('display', 'flex', 'important');
+        container.style.setProperty('visibility', 'visible', 'important');
+        container.style.setProperty('opacity', '1', 'important');
+        container.style.setProperty('position', 'fixed', 'important');
+        container.style.setProperty('left', '20px', 'important');
+        container.style.setProperty('top', '100px', 'important');
+        container.style.setProperty('z-index', '999', 'important');
+        container.style.setProperty('width', '160px', 'important');
+        container.style.setProperty('min-height', '600px', 'important');
+        container.style.setProperty('pointer-events', 'auto', 'important');
+      }
+      
+      // Force inner container visibility
+      if (containerRef.current) {
+        containerRef.current.style.setProperty('display', 'flex', 'important');
+        containerRef.current.style.setProperty('visibility', 'visible', 'important');
+        containerRef.current.style.setProperty('opacity', '1', 'important');
+        containerRef.current.style.setProperty('width', '160px', 'important');
+        containerRef.current.style.setProperty('min-height', '600px', 'important');
+        containerRef.current.style.setProperty('max-width', '160px', 'important');
+      }
+    };
 
     const loadBanner = () => {
       if (!containerRef.current) return;
@@ -34,19 +59,15 @@ export const AdBanner160x600 = () => {
           script.src = 'https://www.topcreativeformat.com/d39a8cf1c58bc0b5b60cadcade8a8b74/invoke.js';
           script.async = true;
           script.setAttribute('data-ad-key', 'd39a8cf1c58bc0b5b60cadcade8a8b74');
-          containerRef.current.appendChild(script);
+          
+          if (containerRef.current) {
+            containerRef.current.appendChild(script);
+          }
         }
       }
 
       // Force visibility
-      if (containerRef.current) {
-        containerRef.current.style.setProperty('display', 'flex', 'important');
-        containerRef.current.style.setProperty('visibility', 'visible', 'important');
-        containerRef.current.style.setProperty('opacity', '1', 'important');
-        containerRef.current.style.setProperty('width', '100%', 'important');
-        containerRef.current.style.setProperty('min-height', '600px', 'important');
-        containerRef.current.style.setProperty('max-width', '160px', 'important');
-      }
+      ensureBannerVisible();
       
       // Find and show related iframes
       const allIframes = document.querySelectorAll('iframe');
@@ -57,24 +78,54 @@ export const AdBanner160x600 = () => {
           iframe.style.setProperty('opacity', '1', 'important');
           iframe.style.setProperty('width', '160px', 'important');
           iframe.style.setProperty('height', '600px', 'important');
+          iframe.style.setProperty('max-width', '160px', 'important');
         }
       });
 
-      scriptLoadedRef.current = true;
+      if (!scriptLoadedRef.current) {
+        scriptLoadedRef.current = true;
+      }
     };
 
-    // Load immediately
+    // Ensure visibility immediately
+    ensureBannerVisible();
+    
+    // Load banner immediately
     loadBanner();
     
     // Retry multiple times
     const timers = [
-      setTimeout(loadBanner, 500),
-      setTimeout(loadBanner, 2000),
-      setTimeout(loadBanner, 5000),
+      setTimeout(() => { ensureBannerVisible(); loadBanner(); }, 100),
+      setTimeout(() => { ensureBannerVisible(); loadBanner(); }, 500),
+      setTimeout(() => { ensureBannerVisible(); loadBanner(); }, 2000),
+      setTimeout(() => { ensureBannerVisible(); loadBanner(); }, 5000),
     ];
+    
+    // Observer for DOM changes
+    const observer = new MutationObserver(() => {
+      ensureBannerVisible();
+      loadBanner();
+    });
+    
+    if (containerRef.current) {
+      observer.observe(containerRef.current, {
+        childList: true,
+        subtree: true,
+        attributes: true
+      });
+    }
+    
+    // Also run on resize
+    const handleResize = () => {
+      ensureBannerVisible();
+      loadBanner();
+    };
+    window.addEventListener('resize', handleResize);
 
     return () => {
       timers.forEach(clearTimeout);
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 

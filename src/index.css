@@ -245,6 +245,22 @@ img.broken-image-fallback {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
+    position: fixed !important;
+    left: 20px !important;
+    top: 100px !important;
+    z-index: 999 !important;
+    width: 160px !important;
+    min-height: 600px !important;
+    pointer-events: auto !important;
+  }
+  
+  .ad-left-sidebar-container .ad-banner-160x600-inner {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 160px !important;
+    min-height: 600px !important;
+    max-width: 160px !important;
   }
   
   #container-f3930ade229bc20a0c616d08517f4ef9 {
