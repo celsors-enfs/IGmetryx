@@ -146,22 +146,51 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     }
   };
 
-  // Initial load
+  // Initial load - MUST run immediately when container is available
   useEffect(() => {
-    if (lazy && !inView) {
-      return; // Wait for intersection
-    }
-
-    // Load immediately for above-the-fold or non-lazy
-    const attemptLoad = async () => {
-      const success = await retrySlot(loadSlot, 2, 1000);
-      if (!success) {
-        setState(prev => ({ ...prev, retryCount: 2 }));
+    // Wait for container to be available
+    const initLoad = () => {
+      if (!containerRef.current) {
+        // Container not ready yet, wait a bit
+        setTimeout(initLoad, 50);
+        return;
       }
+
+      if (lazy && !inView) {
+        return; // Wait for intersection
+      }
+
+      // Ensure visibility first
+      if (containerRef.current) {
+        ensureContainerVisible(containerRef.current, config, position);
+      }
+
+      // Load immediately for above-the-fold or non-lazy
+      const attemptLoad = async () => {
+        if (!containerRef.current) return;
+        
+        // Force visibility before loading
+        ensureContainerVisible(containerRef.current, config, position);
+        
+        const success = await retrySlot(loadSlot, 2, 1000);
+        if (!success) {
+          setState(prev => ({ ...prev, retryCount: 2 }));
+          // Try one more time after delay
+          setTimeout(() => {
+            if (containerRef.current) {
+              ensureContainerVisible(containerRef.current, config, position);
+              loadSlot();
+            }
+          }, 3000);
+        }
+      };
+
+      attemptLoad();
     };
 
-    attemptLoad();
-  }, [lazy, inView]);
+    // Start immediately
+    initLoad();
+  }, [lazy, inView, type, position]);
 
   // Listen for route changes
   useEffect(() => {
@@ -187,16 +216,22 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     }
   }, [state.status, position]);
 
-  // MutationObserver for detecting iframe injection
+  // MutationObserver for detecting iframe injection - ALWAYS active
   useEffect(() => {
-    if (!containerRef.current || state.status === 'loaded') return;
+    if (!containerRef.current) return;
 
     const observer = new MutationObserver(() => {
       if (containerRef.current) {
+        // Check for iframe
         const iframe = containerRef.current.querySelector('iframe');
         if (iframe && !state.iframeFound) {
           debugLog(`[${type}] Iframe detected via MutationObserver`);
           setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
+          ensureContainerVisible(containerRef.current, config, position);
+        }
+        
+        // Also ensure container is always visible
+        if (containerRef.current) {
           ensureContainerVisible(containerRef.current, config, position);
         }
       }
@@ -208,8 +243,23 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
       attributes: true,
     });
 
-    return () => observer.disconnect();
-  }, [state.status, state.iframeFound, position]);
+    // Also check periodically for iframes
+    const interval = setInterval(() => {
+      if (containerRef.current && !state.iframeFound) {
+        const iframe = containerRef.current.querySelector('iframe');
+        if (iframe) {
+          debugLog(`[${type}] Iframe found via periodic check`);
+          setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
+          ensureContainerVisible(containerRef.current, config, position);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      observer.disconnect();
+      clearInterval(interval);
+    };
+  }, [type, position]); // Re-run if position changes, but keep observer active
 
   // Get container dimensions
   const containerStyle: React.CSSProperties = {
