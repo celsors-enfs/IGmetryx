@@ -379,9 +379,12 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
   }, [type, position]);
 
   // Container ID for Adsterra (important for script to find container)
-  const containerId = type === 'native' 
-    ? config.containerId || ''
-    : `ad-banner-${type}-${instanceIdRef.current}`;
+  let containerId: string;
+  if (type === 'native') {
+    containerId = config.containerId || '';
+  } else {
+    containerId = `ad-banner-${type}-${instanceIdRef.current}`;
+  }
 
   return (
     <div
