@@ -73,12 +73,6 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
     try {
       setState(prev => ({ ...prev, status: 'loading' }));
 
-      // CRITICAL: Set atOptions BEFORE loading script for banner ads
-      if (type !== 'native') {
-        setAtOptions(config);
-        debugLog(`[${type}] atOptions set before script load`);
-      }
-
       // For native ads, load script into existing container from index.html
       if (type === 'native') {
         const nativeContainer = document.getElementById(config.containerId!);
@@ -105,16 +99,22 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
           return false;
         }
       } else {
-        // For banner ads: inject script into container AFTER atOptions is set
+        // For banner ads: CRITICAL - Set atOptions BEFORE creating script
+        setAtOptions(config);
+        debugLog(`[${type}] atOptions set`);
+        
+        // Inject script directly into container (DO NOT use loadScriptOnce for banners)
         const scriptId = `adsterra-${type}-${instanceIdRef.current}`;
         const existingScript = document.getElementById(scriptId);
         
         if (!existingScript && containerRef.current) {
-          // Ensure container ID is set so script knows where to inject
-          if (!containerRef.current.id) {
-            containerRef.current.id = `ad-banner-${type}-${instanceIdRef.current}`;
+          // Ensure container ID is set - script needs to know where to inject iframe
+          const containerId = `ad-banner-${type}-${instanceIdRef.current}`;
+          if (!containerRef.current.id || containerRef.current.id !== containerId) {
+            containerRef.current.id = containerId;
           }
           
+          // Create and inject script directly into container
           const script = document.createElement('script');
           script.id = scriptId;
           script.type = 'text/javascript';
@@ -123,37 +123,69 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
           script.setAttribute('data-ad-key', config.key);
           script.setAttribute('data-cfasync', 'false');
           
-          // Important: Append to container so script can find the target
+          // CRITICAL: Append script to container (not head/body)
+          // Adsterra script injects iframe into the parent container of the script
           containerRef.current.appendChild(script);
           debugLog(`[${type}] Script injected into container: ${containerRef.current.id}`);
           
-          // Wait a bit for script to execute
-          await new Promise(resolve => setTimeout(resolve, 500));
+          // Wait for script to load and execute
+          await new Promise<void>((resolve) => {
+            script.onload = () => {
+              debugLog(`[${type}] Script loaded, waiting for iframe...`);
+              resolve();
+            };
+            script.onerror = () => {
+              debugLog(`[${type}] Script failed to load`);
+              resolve(); // Continue anyway
+            };
+            // Timeout after 5s
+            setTimeout(() => {
+              debugLog(`[${type}] Script load timeout`);
+              resolve();
+            }, 5000);
+          });
+          
+          // Ensure atOptions is still set after script load
+          setAtOptions(config);
         }
 
-        // Wait for iframe with longer timeout
-        const iframe = await detectIframeInContainer(containerRef.current, config, 8000);
+        // Wait for iframe with multiple checks
+        let iframe: HTMLIFrameElement | null = null;
         
-        if (iframe || containerRef.current.querySelector('iframe')) {
+        // Check immediately
+        iframe = containerRef.current.querySelector('iframe') as HTMLIFrameElement;
+        if (iframe) {
+          debugLog(`[${type}] Iframe found immediately`);
           setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
           ensureContainerVisible(containerRef.current, config, position);
-          debugLog(`[${type}] Slot loaded successfully`);
           return true;
-        } else {
-          // Check again after another delay
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          const delayedIframe = containerRef.current.querySelector('iframe');
-          if (delayedIframe) {
+        }
+
+        // Wait and check multiple times
+        for (let i = 0; i < 10; i++) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+          iframe = containerRef.current.querySelector('iframe') as HTMLIFrameElement;
+          if (iframe) {
+            debugLog(`[${type}] Iframe found after ${i + 1} checks`);
             setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
             ensureContainerVisible(containerRef.current, config, position);
-            debugLog(`[${type}] Slot loaded successfully (delayed)`);
             return true;
           }
-          
-          setState(prev => ({ ...prev, status: 'failed', error: 'Iframe not detected' }));
-          debugLog(`[${type}] Iframe not detected after all attempts`);
-          return false;
         }
+        
+        // Final check after longer delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        iframe = containerRef.current.querySelector('iframe') as HTMLIFrameElement;
+        if (iframe) {
+          debugLog(`[${type}] Iframe found after final delay`);
+          setState(prev => ({ ...prev, status: 'loaded', iframeFound: true }));
+          ensureContainerVisible(containerRef.current, config, position);
+          return true;
+        }
+        
+        setState(prev => ({ ...prev, status: 'failed', error: 'Iframe not detected after 7s' }));
+        debugLog(`[${type}] Iframe not detected after all attempts`);
+        return false;
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
