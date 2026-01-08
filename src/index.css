@@ -173,7 +173,31 @@ img.broken-image-fallback {
   scroll-margin-top: 96px;
 }
 
-/* Adsterra Native Banner positioning */
+/* Left Sidebar - Banner 160x600 positioning */
+.ad-left-sidebar-container {
+  position: fixed !important;
+  top: 100px !important;
+  left: 20px !important;
+  z-index: 999 !important;
+  width: 160px !important;
+  min-height: 600px !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  background: transparent !important;
+}
+
+.ad-left-sidebar-container .ad-banner-160x600-inner {
+  width: 160px !important;
+  min-height: 600px !important;
+  max-width: 160px !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Adsterra Native Banner positioning - Right Sidebar */
 #container-f3930ade229bc20a0c616d08517f4ef9 {
   position: fixed !important;
   top: 100px !important;
@@ -215,8 +239,14 @@ img.broken-image-fallback {
   border-radius: 8px;
 }
 
-/* Ensure ad container is always visible on desktop */
+/* Ensure ad containers are always visible on desktop */
 @media (min-width: 1025px) {
+  .ad-left-sidebar-container {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
   #container-f3930ade229bc20a0c616d08517f4ef9 {
     display: block !important;
     visibility: visible !important;
@@ -272,6 +302,11 @@ img.broken-image-fallback {
 
 /* Ensure ads don't overlap with content on medium screens */
 @media (min-width: 1025px) and (max-width: 1400px) {
+  .ad-left-sidebar-container {
+    left: 10px !important;
+    width: 160px !important;
+  }
+  
   #container-f3930ade229bc20a0c616d08517f4ef9 {
     right: 10px !important;
     max-width: 180px !important;
@@ -329,30 +364,30 @@ img.broken-image-fallback {
   visibility: visible !important;
 }
 
-/* Banner 160x600 styling */
-[id^="ad-banner-160x600"],
-[id^="ad-banner-160x600"] > * {
+/* Banner 160x600 styling - Left Sidebar */
+.ad-left-sidebar-container [id^="ad-banner-160x600"],
+.ad-left-sidebar-container [id^="ad-banner-160x600"] > * {
   display: flex !important;
   justify-content: center !important;
-  align-items: center !important;
-  width: 100% !important;
+  align-items: flex-start !important;
+  width: 160px !important;
   min-height: 600px !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin: 0 auto !important;
+  margin: 0 !important;
   text-align: center !important;
 }
 
-[id^="ad-banner-160x600"] iframe,
-[id^="ad-banner-160x600"] > iframe,
-[id^="ad-banner-160x600"] div iframe {
-  max-width: 100% !important;
+.ad-left-sidebar-container [id^="ad-banner-160x600"] iframe,
+.ad-left-sidebar-container [id^="ad-banner-160x600"] > iframe,
+.ad-left-sidebar-container [id^="ad-banner-160x600"] div iframe {
+  max-width: 160px !important;
   width: 160px !important;
   height: 600px !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin: 0 auto !important;
+  margin: 0 !important;
 }
 
 /* Ensure banners are visible on mobile - OVERRIDE ALL HIDDEN STATES */
@@ -452,30 +487,6 @@ img.broken-image-fallback {
     width: 120px !important;
     height: 120px !important;
     object-fit: cover !important;
-  }
-  
-  /* Banner 160x600 on mobile */
-  [id^="ad-banner-160x600"],
-  [id^="ad-banner-160x600"] > * {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 600px !important;
-    margin: 0 auto !important;
-  }
-  
-  [id^="ad-banner-160x600"] iframe,
-  [id^="ad-banner-160x600"] > iframe,
-  [id^="ad-banner-160x600"] div iframe {
-    max-width: 100% !important;
-    width: 100% !important;
-    height: 600px !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    margin: 0 auto !important;
   }
 }
 

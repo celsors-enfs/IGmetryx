@@ -80,24 +80,25 @@ export const AdBanner160x600 = () => {
 
   return (
     <div 
-      className="w-full flex justify-center items-center py-4 my-4 bg-gray-50"
+      className="ad-left-sidebar-container"
       style={{ 
         display: 'flex', 
         justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        minHeight: '600px'
+        alignItems: 'flex-start',
+        width: '160px',
+        minHeight: '600px',
+        background: 'transparent'
       }}
     >
       <div 
         ref={containerRef}
         id={`ad-banner-160x600-${instanceIdRef.current}`}
-        className="min-h-[600px] w-full max-w-[160px] flex justify-center items-center mx-auto"
+        className="ad-banner-160x600-inner"
         style={{ 
           display: 'flex', 
           justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
+          alignItems: 'flex-start',
+          width: '160px',
           minHeight: '600px',
           maxWidth: '160px'
         }}

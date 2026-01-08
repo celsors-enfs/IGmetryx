@@ -14,11 +14,13 @@ import { TermsOfServicePage } from './pages/TermsOfServicePage';
 import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate';
 import { AnchorScroll } from './components/AnchorScroll';
 import { AdSidebar } from './components/AdSidebar';
+import { AdBanner160x600 } from './components/AdBanner160x600';
 
 function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
+        <AdBanner160x600 />
         <AdSidebar />
         <ScrollToTopOnNavigate />
         <AnchorScroll />
