@@ -75,6 +75,8 @@ export function AdSlot({ type, position, className = '', lazy = false }: AdSlotP
 
       // For native ads, load script into existing container from index.html
       if (type === 'native') {
+        // Load script via loadScriptOnce (can be in head/body)
+        await loadScriptOnce(config);
         const nativeContainer = document.getElementById(config.containerId!);
         if (nativeContainer) {
           // Load native ad script
